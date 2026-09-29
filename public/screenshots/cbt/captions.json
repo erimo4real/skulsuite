@@ -1,0 +1,7 @@
+{
+  "01-create-exam-form.png": "Staff creating a CBT exam — subject, class, duration, pass mark and question shuffling",
+  "02-exam-detail-published.png": "Published exam detail page with the added question list and exam status",
+  "03-student-taking-exam.png": "Student taking the live exam — question navigator, countdown timer and answers saving as they type",
+  "04-exam-result.png": "Result screen shown to the student immediately after submitting",
+  "05-grading-queue.png": "Staff grading queue for theory answers, with marks entered per question"
+}

@@ -1,0 +1,8 @@
+{
+  "01-admin-dashboard.png": "Admin dashboard with enrolment, fee collection and attendance overview",
+  "02-student-records.png": "Student records — search, class filters and detailed student profiles",
+  "03-attendance.png": "Daily attendance register with per-class marking and summaries",
+  "04-fees.png": "Fee management — invoices, payments and outstanding balances",
+  "05-report-card.png": "Auto-generated student report card with subject scores and grades",
+  "06-parent-portal.png": "Parent portal view — child's attendance, results and fee status"
+}
