@@ -31,7 +31,9 @@ export function PricingSection() {
             >
               {product.productName}
             </span>
-            <p className="mt-4 text-lg font-bold text-slate-900">Contact us for pricing</p>
+            <p className="mt-4 text-lg font-bold text-slate-900">
+              {product.plans[0]?.price ?? "Contact us for pricing"}
+            </p>
             <p className="mt-2 flex-1 text-sm text-slate-600">{product.blurb}</p>
             <Link
               href="/pricing"

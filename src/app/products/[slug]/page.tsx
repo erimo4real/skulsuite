@@ -10,6 +10,7 @@ import { ProductIcon } from "@/components/accent";
 import { FeatureCard } from "@/components/FeatureCard";
 import { StepsList } from "@/components/StepsList";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
+import { ProductMedia } from "@/components/ProductMedia";
 import { getScreenshots } from "@/lib/screenshots";
 import { FaqList } from "@/components/FaqList";
 import { CtaBanner } from "@/components/CtaBanner";
@@ -133,6 +134,32 @@ export default async function ProductPage({ params }: Params) {
           <StepsList steps={product.howItWorks} />
         </div>
       </section>
+
+      {/* ── Demo video / presentation ─────────────────────────────── */}
+      <ProductMedia
+        productName={product.name}
+        demoBase={
+          product.id === "cbt"
+            ? "cbt-demo"
+            : product.id === "question-bank"
+              ? "question-bank-demo"
+              : "school-management-demo"
+        }
+        deckFile={
+          product.id === "cbt"
+            ? "CBT-Presentation.pptx"
+            : product.id === "question-bank"
+              ? "QBank-Presentation.pdf"
+              : undefined
+        }
+        deckLabel={
+          product.id === "cbt"
+            ? "Download the CBT walkthrough (PPTX)"
+            : product.id === "question-bank"
+              ? "Download the Question Bank walkthrough (PDF)"
+              : undefined
+        }
+      />
 
       {/* ── Screenshots ───────────────────────────────────────────── */}
       <section className="border-y border-slate-100 bg-slate-50">
