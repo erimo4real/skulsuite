@@ -1,0 +1,13 @@
+question_text,question_type,options,correct_answer,explanation,marks,difficulty,subject,tags,status
+What is the value of 7 × 8?,mcq,54|56|64|48,56,7 × 8 = 56,1,easy,Mathematics,number-work|multiplication,published
+Which of these is a prime number?,mcq,21|27|29|33,29,"29 has exactly two factors: 1 and 29",1,medium,Mathematics,prime-numbers,published
+What is 3/4 as a decimal?,mcq,0.34|0.75|0.43|0.25,0.75,3 ÷ 4 = 0.75,1,medium,Mathematics,fractions|decimals,draft
+A triangle has three sides.,true_false,True|False,True,By definition a triangle has three sides,1,easy,Mathematics,geometry,published
+What is the place value of 7 in 4 726?,fill_blank,,hundreds,"The 7 is in the hundreds place (4 thousands, 7 hundreds, 2 tens, 6 units)",2,medium,Mathematics,place-value,draft
+Explain how you would share 15 oranges equally among 4 friends. What happens to the leftovers?,essay,,,"Essay question — look for 3 each with 3 remaining, or 3 remainder 3",5,hard,Mathematics,division|word-problems,draft
+Which word in this sentence is a noun: ""The tall boy ran quickly.""?,mcq,tall|boy|ran|quickly,boy,"A noun names a person, place or thing — ""boy"" is a person",1,easy,English Studies,parts-of-speech,published
+What is the plural of ""child"?,mcq,childs|childes|children|childrens,children,"""Child"" has an irregular plural: children",1,easy,English Studies,plural-words,published
+Choose the correct spelling.,mcq,recieve|receve|receive|receieve,receive,"Remember: ""i"" before ""e"" except after ""c""",1,medium,English Studies,spelling,draft
+A sentence must begin with a capital letter.,true_false,True|False,True,Every sentence begins with a capital letter and ends with punctuation,1,easy,English Studies,punctuation,published
+Water boils at what temperature?,mcq,50°C|75°C|100°C|150°C,100°C,"At sea level water boils at 100°C",1,easy,Basic Science,heat|water,published
+Which of these is a source of energy for the human body?,mcq,Sunlight|Carbohydrates|Oxygen|Water,Carbohydrates,"Carbohydrates are the body's main energy source",1,medium,Basic Science,nutrition|energy,draft

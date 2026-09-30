@@ -69,10 +69,13 @@ const cards: DownloadCard[] = [
     accent: "brand",
   },
   {
-    title: "QBank Trial Kit",
+    title: "QBank Trial Kit (installable app)",
     description:
-      "Try Question Bank with your own questions: a ready-made sample import file plus a 15-minute step-by-step guide.",
-    files: [{ file: "QBank-Trial-Kit.zip", label: "Download the Trial Kit (ZIP)" }],
+      "The real QBank app to install and try on your own Windows computer — no sign-up, works offline. Includes 12 sample questions (CSV) to import and a 15-minute quick-start guide: sign in, set up your school, import questions, build and print an exam paper.",
+    files: [
+      { file: "QBank-Trial-Kit.zip", label: "Download the Trial Kit — full app (ZIP, 63 MB)" },
+      { file: "QBank-Sample-Questions.csv", label: "Sample questions only (CSV)" },
+    ],
     badge: "Hands-on",
     accent: "emerald",
   },
