@@ -1,7 +1,10 @@
 {
-  "01-create-exam-form.png": "Staff creating a CBT exam — subject, class, duration, pass mark and question shuffling",
-  "02-exam-detail-published.png": "Published exam detail page with the added question list and exam status",
-  "03-student-taking-exam.png": "Student taking the live exam — question navigator, countdown timer and answers saving as they type",
-  "04-exam-result.png": "Result screen shown to the student immediately after submitting",
-  "05-grading-queue.png": "Staff grading queue for theory answers, with marks entered per question"
+  "01-staff-dashboard.png": "Staff landing panel — quick access to exams, students, exam PINs, question bank and analytics",
+  "02-exam-builder.png": "Exam builder — assemble an exam from the question bank and set duration, attempts and pass mark",
+  "03-question-bank.png": "Question bank — MCQ, true/false and theory questions organised by subject and topic",
+  "04-student-manager.png": "Student manager — accounts, class levels and student types (new/regular) in one register",
+  "05-item-analysis.png": "Item analysis — question-by-question performance so teachers can spot weak topics",
+  "06-student-dashboard.png": "Student portal — exams, scores, course progress, XP and weak areas at a glance",
+  "07-exam-taking.png": "Live exam screen — question navigator, countdown timer and instant feedback",
+  "08-report-card.png": "Student report card — term scores, averages and subject breakdown"
 }
