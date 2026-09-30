@@ -1,0 +1,57 @@
+name: Daily USD→NGN price check
+
+# Runs daily while the PC is off. Fetches the rate, recomputes the hosting
+# tiers with the price list's own formula, and only commits + redeploys when
+# a rounded tier actually crossed a ₦5,000 boundary.
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # 06:00 UTC = 7:00 Nigerian time
+  workflow_dispatch: {} # manual run button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-price-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch rate and recompute hosting tiers
+        id: update
+        run: node scripts/update-hosting-prices.mjs
+
+      - name: Commit updated prices
+        id: commit
+        if: steps.update.outcome == 'success'
+        run: |
+          git config user.name "skulsuite-price-bot"
+          git config user.email "noreply@skulsuite.local"
+          git add src/data/hosting-live.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No tier changes to commit"
+          else
+            git commit -m "chore(pricing): update hosting tiers for USD rate $(node -p "require('./src/data/hosting-live.json').rate")"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push
+        if: steps.commit.outputs.changed == 'true'
+        run: git push
+
+      - name: Trigger Netlify rebuild
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -s -X POST -d '{}' "$NETLIFY_DEPLOY_HOOK" -o /dev/null -w "deploy hook: HTTP %{http_code}\n"
+        env:
+          NETLIFY_DEPLOY_HOOK: ${{ secrets.NETLIFY_DEPLOY_HOOK }}

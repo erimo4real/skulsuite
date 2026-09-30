@@ -1,0 +1,27 @@
+{
+  "updated": "2026-09-30",
+  "rate": 1327.24,
+  "rate_source": "open.er-api.com",
+  "planning_rate_ngn_per_usd": 1400,
+  "list_baseline_rate_ngn_per_usd": 1330,
+  "published_baseline": {
+    "small": 130000,
+    "medium": 260000,
+    "large": 525000
+  },
+  "tiers": {
+    "small": {
+      "label": "Small (up to 99 students)",
+      "hosting": 130000
+    },
+    "medium": {
+      "label": "Medium (100-299 students)",
+      "hosting": 260000
+    },
+    "large": {
+      "label": "Large (300-600 students)",
+      "hosting": 525000
+    }
+  },
+  "note": "Hosting prices as published (29 Sep 2026). Checked 2026-09-30: the dollar is down 0.2% against the official rate used when prices were set — no change needed. Licence prices are unaffected."
+}

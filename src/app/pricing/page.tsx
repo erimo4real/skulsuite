@@ -13,6 +13,7 @@ import {
   HOSTING_SERVER_NOTE,
 } from "@/data/pricing-table";
 import { priceSource } from "@/data/pricing";
+import { getLiveHosting } from "@/lib/hosting-live";
 import { buildMetadata } from "@/lib/seo";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Icon } from "@/components/Icon";
@@ -25,6 +26,15 @@ export const metadata: Metadata = buildMetadata({
     "SkulSuite pricing: termly licences from ₦15,000/term, ownership from ₦150,000 once, or all three products bundled with 15% off. Hosting and one-time fees listed.",
   path: "/pricing",
 });
+
+// Hosting line tracks the USD rate via the daily job; licences never move.
+const liveHosting = getLiveHosting();
+const hostingAmountsFor: Record<string, number> = Object.fromEntries(
+  hostingTiers.map((t) => [
+    t.size,
+    liveHosting?.tiers?.[t.size]?.hosting ?? t.hosting,
+  ]),
+);
 
 function PriceTable({
   title,
@@ -163,7 +173,7 @@ export default function PricingPage() {
                   <td className="px-6 py-3.5 font-medium text-slate-900">Cloud hosting and server space</td>
                   {hostingTiers.map((t) => (
                     <td key={t.size} className="px-6 py-3.5 text-right font-semibold text-slate-900">
-                      {naira(t.hosting)}
+                      {naira(hostingAmountsFor[t.size])}
                     </td>
                   ))}
                 </tr>
@@ -179,7 +189,7 @@ export default function PricingPage() {
                   <td className="px-6 py-3.5 font-bold text-slate-900">Total per year</td>
                   {hostingTiers.map((t) => (
                     <td key={t.size} className="px-6 py-3.5 text-right font-bold text-slate-900">
-                      {naira(t.hosting + t.domain)}
+                      {naira(hostingAmountsFor[t.size] + t.domain)}
                     </td>
                   ))}
                 </tr>
@@ -188,6 +198,12 @@ export default function PricingPage() {
           </div>
           <p className="border-t border-slate-100 px-6 py-3 text-xs text-slate-500">
             {HOSTING_SERVER_NOTE}
+            {liveHosting && (
+              <>
+                {" "}
+                <em className="not-italic font-medium text-slate-600">{liveHosting.note}</em>
+              </>
+            )}
           </p>
         </div>
       </section>

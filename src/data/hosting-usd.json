@@ -1,0 +1,26 @@
+{
+  "comment": "Provider USD prices behind the yearly hosting tiers. Manual file — review ~quarterly or when a provider changes rates. Planning rate and rounding live in scripts/update-hosting-prices.mjs.",
+  "as_of": "2026-09-29",
+  "planning_rate_ngn_per_usd": 1400,
+  "baseline_rate_ngn_per_usd": 1330,
+  "planning_rate_source": "Price list v1.0 (Final), issued 29 Sep 2026: NGN 1,400 per USD 1 (official ~1,330, open-market ~1,390 on 28 Sep 2026; planning rate covers card charges)",
+  "rounding": "nearest 5000",
+  "tiers": {
+    "small": {
+      "label": "Small (up to 99 students)",
+      "usd_items": "DigitalOcean 1 GB droplet ($6/mo) + GoDaddy .com ($22.99/yr)",
+      "usd_per_year": 94.99
+    },
+    "medium": {
+      "label": "Medium (100-299 students)",
+      "usd_items": "Vultr 1 GB ($6/mo) + Namecheap .com ($18.48/yr)",
+      "usd_per_year": 90.48
+    },
+    "large": {
+      "label": "Large (300-600 students)",
+      "usd_items": "Vultr 4 GB ($24/mo) + Namecheap .com ($18.48/yr)",
+      "usd_per_year": 306.48
+    }
+  },
+  "domain_note": "Domain is included in each tier's USD figure; the 40,000 NGN domain line on the site stays fixed (registry prices rarely move)."
+}
