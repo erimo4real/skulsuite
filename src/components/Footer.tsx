@@ -5,6 +5,7 @@ import { contactEmail, contactPhone, whatsappNumber } from "@/lib/env";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { Icon } from "./Icon";
 import { LogoMark } from "./Logo";
+import { CookieSettings } from "./CookieConsent";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -116,8 +117,22 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-6 text-sm text-slate-500">
-          © {year} {site.name}. All rights reserved.
+        <div className="mt-10 border-t border-slate-200 pb-16 pt-6 text-sm text-slate-500 sm:pb-0">
+          © {year} {site.name}. All rights reserved.          <nav aria-label="Legal" className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+            {
+              [
+                ["Terms of Service", "/terms"],
+                ["Privacy Policy", "/privacy"],
+                ["Refund Policy", "/refund-policy"],
+                ["Licence Agreement", "/licence"],
+              ].map(([label, href]) => (
+                <Link key={href} href={href} className="hover:text-brand-700">
+                  {label}
+                </Link>
+              ))
+            }
+            <CookieSettings />
+          </nav>
         </div>
       </div>
     </footer>

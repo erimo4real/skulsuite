@@ -13,12 +13,13 @@ import {
   HOSTING_SERVER_NOTE,
 } from "@/data/pricing-table";
 import { priceSource } from "@/data/pricing";
-import { getLiveHosting } from "@/lib/hosting-live";
+import { getLiveHosting, hostingAmounts } from "@/lib/hosting-live";
 import { buildMetadata } from "@/lib/seo";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Icon } from "@/components/Icon";
 import { CtaBanner } from "@/components/CtaBanner";
 import { ViewTracker } from "@/components/ViewTracker";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
@@ -108,6 +109,11 @@ export default function PricingPage() {
             Download the official price list (PDF)
           </a>
         </p>
+      </section>
+
+      {/* ── Interactive calculator (engine-backed, build prompt §3) ── */}
+      <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+        <PriceCalculator hosting={hostingAmounts()} domain={hostingTiers[0].domain} />
       </section>
 
       {/* ── Option A: termly ── */}

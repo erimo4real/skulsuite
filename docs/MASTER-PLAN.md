@@ -66,3 +66,33 @@ real products (`docs/PRODUCT-AUDIT.md`); nothing invented, no fake testimonials/
 - Price list "valid until 29 Oct 2026" needs a human bump when it expires.
 - ERP QA run still pending owner execution (`node scripts/orchestrate-qa.mjs` — see ERP `web/` docs); screenshots feed the site galleries.
 - Launch checklist items remain: WhatsApp number, email/phone, Formspree (or Netlify Forms) endpoint, `.env.local`.
+
+## 7. Build-Prompt PDFs (Oct 2026) — static features added, platform spec parked
+
+The owner supplied `Website_Build_Prompt.pdf` + `Website_Build_Prompt1.pdf` (v1.1 adds the
+Ero sound rules E13–E15 + classroom chat styling; otherwise identical) and asked to "add the
+features". Decision (owner-confirmed via questions):
+
+10. **Static-friendly features now; payments/licences/portal/admin/Ero stay with the future
+    Django platform** (reaffirms decision #9). The site keeps collecting demo/quote requests.
+
+Added to the site (all verified, T1–T14 engine tests 28/28 passing):
+
+- `src/lib/pricing-engine.ts` — ONE pure pricing function (bundle 15%, early-adopter 50%,
+  upfront 10%, no-combine rule, no discount on hosting/domain/fees, over-600 = custom quote).
+  Tested by `scripts/test-pricing-engine.mts` against the REAL `pricing-table.ts` data.
+- `src/components/PriceCalculator.tsx` — interactive calculator on /pricing, engine-backed,
+  receives live hosting numbers via props (fs/import safety), over-600 → Request-a-quote.
+- Draft legal pages `/terms`, `/privacy`, `/refund-policy`, `/licence` (LegalDraft.tsx shell,
+  DRAFT-for-lawyer banner on each) + footer links + sitemap entries.
+- `CookieConsent.tsx` + `AnalyticsGate.tsx` — GA loads only after consent; footer "Cookie
+  settings" reopens the notice; privacy policy §3 documents it.
+- Homepage "Now onboarding pilot schools" trust strip (honest placeholder per §11).
+- Mobile (from owner's design video): Navbar rebuilt as slide-in drawer with icons, overlay,
+  Escape-close, scroll lock, 44px+ targets; `MobileActionBar.tsx` = sticky bottom demo bar +
+  floating WhatsApp bubble (bubble hides until NEXT_PUBLIC_WHATSAPP_NUMBER is set; hidden on
+  /demo and /contact so it never covers forms).
+
+Reference material kept in `docs/`: `BUILD-PROMPT-SPEC.md` (distilled 19-section spec with
+T1–T15/E1–E15 maps) and `build-prompt-extracted.txt` (full text of both PDFs). The PDFs
+themselves stay untracked (owner's source docs, not site content).

@@ -132,3 +132,23 @@
     transform: none;
   }
 }
+
+/* ── Mobile drawer (slide-in menu, mobile-first per build prompt §11) ──
+   Only animates when the user has not asked for reduced motion; with
+   reduced motion the drawer still opens, it just appears instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  .drawer-panel {
+    animation: drawer-in 0.25s ease-out;
+  }
+
+  @keyframes drawer-in {
+    from {
+      transform: translateX(1.5rem);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+}

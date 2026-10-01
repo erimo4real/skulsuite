@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 import { site } from "@/data/site";
@@ -9,6 +8,9 @@ import { siteUrl, gaId } from "@/lib/env";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { RevealScript } from "@/components/RevealScript";
+import { CookieConsent } from "@/components/CookieConsent";
+import { AnalyticsGate } from "@/components/AnalyticsGate";
+import { MobileActionBar } from "@/components/MobileActionBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -39,26 +41,14 @@ export default function RootLayout({
         <noscript>
           <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
-        {gaId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
-        ) : null}
+        {/* Google Analytics loads only after cookie consent (privacy policy §3). */}
+        {gaId ? <AnalyticsGate gaId={gaId} /> : null}
+        <CookieConsent />
         <RevealScript />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <MobileActionBar />
       </body>
     </html>
   );

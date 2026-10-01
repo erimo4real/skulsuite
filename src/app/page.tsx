@@ -157,6 +157,38 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Trust strip (build prompt §11: no fake numbers — pilot-schools message) ── */}
+      <section className="border-b border-slate-100 bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-6 text-center sm:px-6 lg:flex-row lg:justify-between lg:text-left">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-3 w-3 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
+            </span>
+            <p className="font-semibold text-slate-900">
+              Now onboarding pilot schools
+              <span className="block text-sm font-normal text-slate-600">
+                Be among the first schools to run SkulSuite this session.
+              </span>
+            </p>
+          </div>
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-600">
+            <li className="flex items-center gap-2">
+              <Icon name="check" className="h-4 w-4 text-emerald-600" strokeWidth={2.5} />
+              Live demos on the real product
+            </li>
+            <li className="flex items-center gap-2">
+              <Icon name="check" className="h-4 w-4 text-emerald-600" strokeWidth={2.5} />
+              Official price list, valid until 29 Oct 2026
+            </li>
+            <li className="flex items-center gap-2">
+              <Icon name="check" className="h-4 w-4 text-emerald-600" strokeWidth={2.5} />
+              WhatsApp support on school days
+            </li>
+          </ul>
+        </div>
+      </section>
+
       {/* ── Products ──────────────────────────────────────────────── */}
       <section
         data-reveal

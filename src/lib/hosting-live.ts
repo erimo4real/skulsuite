@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { hostingTiers } from "@/data/pricing-table";
+import { hostingTiers, type SchoolSize } from "@/data/pricing-table";
 
 /**
  * Live hosting prices, generated daily by scripts/update-hosting-prices.mjs
@@ -29,9 +29,9 @@ export function getLiveHosting(): LiveHosting | null {
 }
 
 /** Hosting amounts per size: live values when available, price-list values otherwise. */
-export function hostingAmounts(): Record<string, number> {
+export function hostingAmounts(): Record<SchoolSize, number> {
   const live = getLiveHosting();
-  const out: Record<string, number> = {};
+  const out = {} as Record<SchoolSize, number>;
   for (const t of hostingTiers) {
     out[t.size] = live?.tiers?.[t.size]?.hosting ?? t.hosting;
   }
