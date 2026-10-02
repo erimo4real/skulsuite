@@ -52,13 +52,14 @@ export default function PrivacyPage() {
           </p>
         </div>
         <div>
-          <h2>5. The Ero assistant (when it arrives)</h2>
+          <h2>5. Ero, the AI assistant</h2>
           <p>
-            We plan to add a small AI assistant called Ero. When it arrives, it will only react
-            to actions on this website, will always tell you it is an AI, will store chats for a
-            limited time, and can be switched off. This section will be updated before that
-            happens, and the full description of what Ero tracks will be reviewed with our
-            lawyer first.
+            Ero is our AI helper, styled as a robot mascot. It answers questions about our
+            products and prices using information from this website only. What you type to Ero
+            is sent to our AI service to generate a reply and is <strong>not stored</strong> by
+            us after the reply is sent. Ero can only react to actions on this website — it
+            cannot read your email, other apps, or anything outside this site. It always says
+            it is an AI, and you can close it at any time.
           </p>
         </div>
         <div>

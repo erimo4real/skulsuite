@@ -1,0 +1,279 @@
+{
+  "business": {
+    "name": "SkulSuite",
+    "tagline": "Digital solutions built for modern schools",
+    "description": "SkulSuite gives schools practical software for daily work: a CBT examination system, a question bank and a school management system. Request a demo for your school."
+  },
+  "products": [
+    {
+      "name": "CBT Examination System",
+      "shortName": "CBT",
+      "summary": "A computer-based testing platform for schools: schedule exams, seat students at computers or phones, and collect scores without the delays of paper.",
+      "slug": "cbt",
+      "url": "/products/cbt",
+      "features": [
+        "Student exam interface",
+        "MCQ, True/False & Theory",
+        "Countdown with auto-submit",
+        "Scheduled exam windows",
+        "Shuffled questions per student",
+        "Duration & pass marks",
+        "Theory grading queue",
+        "Instant results",
+        "Works on phones too"
+      ]
+    },
+    {
+      "name": "Question Bank",
+      "shortName": "Question Bank",
+      "summary": "A question bank for teachers: create questions once with topics, difficulty and marks, organise them by subject and class, and reuse them in CBT exams and printed papers.",
+      "slug": "question-bank",
+      "url": "/products/question-bank",
+      "features": [
+        "Create & edit questions",
+        "MCQ, True/False & Theory",
+        "Organised by subject & class",
+        "Topics & difficulty",
+        "Marks & explanations",
+        "Feeds straight into CBT",
+        "Printable exam papers"
+      ]
+    },
+    {
+      "name": "School Management System",
+      "shortName": "School Management",
+      "summary": "A school management system that keeps administrative and academic operations digital — from admission and attendance to results, fees and report cards.",
+      "slug": "school-management",
+      "url": "/products/school-management",
+      "features": [
+        "Student records",
+        "Staff directory",
+        "Classes, subjects & sessions",
+        "Timetable",
+        "Attendance",
+        "Exams & marks",
+        "Printable report cards",
+        "Fees",
+        "Notices",
+        "Parent portal",
+        "Roles & audit trail"
+      ]
+    }
+  ],
+  "pricing": {
+    "priceListVersion": "Version 1.0 (Final) — issued 29 September 2026",
+    "tiers": "Small: up to 99 students. Medium: 100-299. Large: 300-600. Over 600 students: custom quote only.",
+    "termlyPerTerm": [
+      {
+        "product": "School Management System",
+        "small": 40000,
+        "medium": 75000,
+        "large": 150000,
+        "note": null
+      },
+      {
+        "product": "CBT (Computer-Based Testing)",
+        "small": 20000,
+        "medium": 40000,
+        "large": 70000,
+        "note": null
+      },
+      {
+        "product": "Question Bank",
+        "small": 15000,
+        "medium": 25000,
+        "large": 40000,
+        "note": null
+      },
+      {
+        "product": "All three (15% bundle discount)",
+        "small": 63750,
+        "medium": 119000,
+        "large": 221000,
+        "note": "Already includes the 15% bundle discount."
+      }
+    ],
+    "ownershipOneTime": [
+      {
+        "product": "School Management System",
+        "small": 400000,
+        "medium": 750000,
+        "large": 1500000,
+        "note": null
+      },
+      {
+        "product": "CBT (Computer-Based Testing)",
+        "small": 200000,
+        "medium": 400000,
+        "large": 700000,
+        "note": null
+      },
+      {
+        "product": "Question Bank",
+        "small": 150000,
+        "medium": 250000,
+        "large": 400000,
+        "note": null
+      },
+      {
+        "product": "All three (15% bundle discount)",
+        "small": 637500,
+        "medium": 1190000,
+        "large": 2210000,
+        "note": "Already includes the 15% bundle discount."
+      }
+    ],
+    "oneTimeFees": [
+      {
+        "service": "Setup and offline installation (one school site)",
+        "amount": 50000
+      },
+      {
+        "service": "Student records data migration",
+        "amount": 30000
+      },
+      {
+        "service": "Staff training session",
+        "amount": 20000
+      }
+    ],
+    "yearlyHostingAndDomain": [
+      {
+        "size": "small",
+        "hosting": 130000,
+        "domain": 40000
+      },
+      {
+        "size": "medium",
+        "hosting": 260000,
+        "domain": 40000
+      },
+      {
+        "size": "large",
+        "hosting": 525000,
+        "domain": 40000
+      }
+    ],
+    "discounts": [
+      {
+        "title": "Early adopter",
+        "detail": "50% off the first term (termly licence only)."
+      },
+      {
+        "title": "Pay all three terms upfront",
+        "detail": "10% off the yearly licence (termly licence only)."
+      },
+      {
+        "title": "Take all three products",
+        "detail": "15% off — already included in the bundle prices above."
+      },
+      {
+        "title": "Rules",
+        "detail": "The early-adopter and upfront-payment discounts cannot be combined, and neither applies to hosting, domain or one-time fees."
+      }
+    ],
+    "terms": [
+      "Prices are in Nigerian Naira and exclude any applicable taxes.",
+      "Termly fees are due at the start of each term. Access may be suspended if a termly fee is more than 14 days overdue.",
+      "Hosting and domain fees are due yearly, upfront. If they are not renewed, the online version may go offline until payment is received.",
+      "The school owns its data. We keep the intellectual property of the software.",
+      "Prices are valid until 29 October 2026."
+    ],
+    "rules": [
+      "Never calculate prices yourself. For any exact or combined price, tell the visitor to use the calculator on /pricing or request a demo — the website computes totals with its pricing engine.",
+      "Quote only the per-size prices listed here, with 'from ₦X' phrasing when unsure of the school size.",
+      "Never invent discounts. Only the discounts in this knowledge base exist, and early-adopter + upfront cannot be combined.",
+      "Never apply discounts to hosting, domain or one-time fees."
+    ]
+  },
+  "faq": [
+    {
+      "question": "What products do you offer?",
+      "answer": "Three products built for schools: the CBT Examination System, the Question Bank and the School Management System. Each works on its own, and they are designed to work together as a suite."
+    },
+    {
+      "question": "Can I request a demo?",
+      "answer": "Yes — that's the best way to start. Fill in the demo request form or send us a WhatsApp message, and we'll arrange a walkthrough at a time that suits your school."
+    },
+    {
+      "question": "Can my school start with just one product?",
+      "answer": "Yes. Most schools start with the product that solves their most pressing problem — often CBT or the Question Bank — and add the others later."
+    },
+    {
+      "question": "Can we use all three products together?",
+      "answer": "Yes. The products are designed as a suite: for example, questions from the Question Bank feed straight into CBT examinations, and the School Management System holds the student and class records behind them."
+    },
+    {
+      "question": "Is the system suitable for primary schools?",
+      "answer": "Yes — the products are designed with both primary and secondary schools in mind, and we tailor the walkthrough to your school level during the demo."
+    },
+    {
+      "question": "Is it suitable for secondary schools?",
+      "answer": "Yes — computer-based testing, a structured question bank and central record-keeping are a natural fit for secondary schools preparing students for external examinations."
+    },
+    {
+      "question": "How does CBT work?",
+      "answer": "Staff prepare questions and set the exam duration in advance. On exam day, students sign in on a computer, answer on screen and submit. Objective questions are marked automatically and results are available immediately."
+    },
+    {
+      "question": "Can teachers create questions?",
+      "answer": "Yes — the Question Bank is built for teachers to create, edit and organise questions by subject and class, so your school's questions stay with the school."
+    },
+    {
+      "question": "How are results generated?",
+      "answer": "In the CBT system, objective questions are marked automatically and scores appear as soon as an exam is submitted. In the School Management System, results are compiled per student, subject and term. We'll show you both during your demo."
+    },
+    {
+      "question": "How much does it cost?",
+      "answer": "Pricing depends on your school's size and needs, so we don't publish fixed prices. Request a demo or contact us, and we'll put together the right package for your school."
+    },
+    {
+      "question": "Do you provide setup assistance and training?",
+      "answer": "Yes — we work with your school through setup and staff training so your team is comfortable from day one. The exact support package is confirmed when you request a demo."
+    },
+    {
+      "question": "Can the system be customised for our school?",
+      "answer": "Schools differ, so we discuss your specific needs during the demo and confirm what can be tailored to the way your school works."
+    }
+  ],
+  "howItWorks": [
+    {
+      "title": "Choose a solution",
+      "description": "Pick the product that solves your school's most pressing problem — CBT, the Question Bank or School Management. Many schools start with one and add the rest later."
+    },
+    {
+      "title": "Request a demo",
+      "description": "Fill in the demo form or send us a WhatsApp message. We'll schedule a walkthrough at a time that suits your school."
+    },
+    {
+      "title": "Set up your school",
+      "description": "We help you configure the system around your school — classes, subjects, sessions, students and staff."
+    },
+    {
+      "title": "Train your staff",
+      "description": "Your teachers and administrators get hands-on training so everyone is confident using the system from the first week."
+    },
+    {
+      "title": "Start using the system",
+      "description": "Run your school digitally from day one, with support on WhatsApp and email whenever you need it."
+    }
+  ],
+  "navigation": {
+    "home": "/",
+    "products": "/products",
+    "pricing": "/pricing",
+    "resources": "/resources",
+    "howItWorks": "/how-it-works",
+    "faq": "/faq",
+    "contact": "/contact",
+    "demo": "/demo"
+  },
+  "personality": [
+    "You are Ero, a friendly robot-teacher mascot for SkulSuite. You always say you are an AI assistant — never pretend to be human.",
+    "You help school owners, principals and ICT teachers find the right product, understand pricing, and book a demo.",
+    "Speak in short, warm, plain sentences (Nigerian-friendly English). Simple Pidgin is fine if the visitor uses it first.",
+    "If you are unsure or the question goes beyond this knowledge base, say so honestly and offer the WhatsApp human handoff.",
+    "Never invent schools, testimonials, statistics, awards or approvals. Never promise delivery dates or prices not in this file.",
+    "You cannot see anything outside this website and cannot read the visitor's email or other apps."
+  ]
+}

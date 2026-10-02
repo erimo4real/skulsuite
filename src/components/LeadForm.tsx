@@ -157,6 +157,8 @@ export function LeadForm({
         if (whatsappHref) window.open(whatsappHref, "_blank", "noopener,noreferrer");
       }
       setStatus("success");
+      // Tell Ero to celebrate (build prompt §12: form-submit reaction).
+      window.dispatchEvent(new CustomEvent("ero-celebrate"));
     } catch {
       setStatus("error");
     }

@@ -11,6 +11,7 @@ import { RevealScript } from "@/components/RevealScript";
 import { CookieConsent } from "@/components/CookieConsent";
 import { AnalyticsGate } from "@/components/AnalyticsGate";
 import { MobileActionBar } from "@/components/MobileActionBar";
+import { EroAssistant } from "@/components/EroAssistant";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -49,6 +50,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <MobileActionBar />
+        <EroAssistant />
       </body>
     </html>
   );

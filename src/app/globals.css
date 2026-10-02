@@ -152,3 +152,27 @@
     }
   }
 }
+
+/* ── Ero the AI assistant ──────────────────────────────────────────
+   Chalk-style text for the classroom chalkboard chat. Reduced-motion
+   users get no draw-in animation; the text simply appears. */
+.chalk {
+  font-family: "Comic Sans MS", "Segoe Print", "Bradley Hand", cursive;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chalk {
+    animation: chalk-in 0.5s ease-out;
+  }
+
+  @keyframes chalk-in {
+    from {
+      opacity: 0;
+      letter-spacing: 0.02em;
+    }
+    to {
+      opacity: 1;
+      letter-spacing: normal;
+    }
+  }
+}

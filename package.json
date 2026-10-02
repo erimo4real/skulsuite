@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:pricing": "node scripts/test-pricing-engine.mts",
+    "ero:kb": "node scripts/generate-ero-kb.mjs"
   },
   "dependencies": {
     "next": "^15.1.6",

@@ -1,0 +1,23 @@
+# Netlify configuration — static export + serverless functions for Ero.
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[functions]
+  directory = "netlify/functions"
+
+# Ero's knowledge base must ship inside the function bundle.
+[functions."ero-chat"]
+  included_files = ["public/ero-knowledge.json"]
+
+# Clean URL for the Ero chat API (static export has no /api routes).
+[[redirects]]
+  from = "/api/ero-chat"
+  to = "/.netlify/functions/ero-chat"
+  status = 200
+
+# Long-cache immutable build assets (Next.js hashes them).
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
