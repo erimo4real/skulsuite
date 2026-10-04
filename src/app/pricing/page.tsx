@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   schoolSizes,
   termlyPrices,
@@ -147,7 +148,15 @@ export default function PricingPage() {
           ))}
           </ul>
           <p className="mt-4 text-xs text-slate-500">
-            The offline version installed on your school computers needs no hosting fee.
+            The offline version installed on your school computers needs no
+            hosting fee. See{" "}
+            <Link
+              href="/offline"
+              className="font-semibold text-brand-700 underline hover:text-brand-800"
+            >
+              Offline or Online
+            </Link>{" "}
+            for how the two editions differ.
           </p>
         </div>
       </section>

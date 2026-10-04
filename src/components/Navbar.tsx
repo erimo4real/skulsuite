@@ -14,6 +14,7 @@ import { Logo } from "./Logo";
 const NAV_ICONS: Record<string, IconName> = {
   "/products": "book-open",
   "/pricing": "calculator",
+  "/offline": "monitor",
   "/resources": "archive",
   "/how-it-works": "monitor",
   "/faq": "users",

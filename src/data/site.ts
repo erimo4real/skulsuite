@@ -13,6 +13,7 @@ export const site = {
 export const nav: NavLink[] = [
   { label: "Products", href: "/products" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Offline or Online", href: "/offline" },
   { label: "Resources", href: "/resources" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "FAQ", href: "/faq" },

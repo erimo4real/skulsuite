@@ -21,6 +21,11 @@ const { products } = await importFrom("src/data/products.ts");
 const { generalFaqs } = await importFrom("src/data/faq.ts");
 const { howItWorksSteps } = await importFrom("src/data/how-it-works.ts");
 const {
+  offlineFaqs,
+  editionComparison,
+  offlineRequirements,
+} = await importFrom("src/data/offline.ts");
+const {
   termlyPrices,
   ownershipPrices,
   oneTimeFees,
@@ -78,6 +83,14 @@ const kb = {
     ],
   },
   faq: generalFaqs,
+  offlineEdition: {
+    summary:
+      "SkulSuite runs with or without internet. The offline edition runs on the school's own network (one server computer + the school's router; no internet day-to-day; a short phone-hotspot session about once a month handles updates, licence checks and backups). The online edition runs on cloud servers so parents and staff connect from anywhere. Licence prices are the same in both editions; offline removes yearly hosting and domain fees and adds the one-time ₦50,000 setup and offline installation fee.",
+    comparison: editionComparison,
+    requirements: offlineRequirements,
+    faqs: offlineFaqs,
+    page: "/offline",
+  },
   howItWorks: howItWorksSteps.map((s) => ({ title: s.title, description: s.description })),
   navigation: {
     home: "/",

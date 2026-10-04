@@ -183,6 +183,10 @@ export default function HomePage() {
             </li>
             <li className="flex items-center gap-2">
               <Icon name="check" className="h-4 w-4 text-emerald-600" strokeWidth={2.5} />
+              Offline edition — runs without internet
+            </li>
+            <li className="flex items-center gap-2">
+              <Icon name="check" className="h-4 w-4 text-emerald-600" strokeWidth={2.5} />
               WhatsApp support on school days
             </li>
           </ul>

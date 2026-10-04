@@ -96,3 +96,17 @@ Added to the site (all verified, T1–T14 engine tests 28/28 passing):
 Reference material kept in `docs/`: `BUILD-PROMPT-SPEC.md` (distilled 19-section spec with
 T1–T15/E1–E15 maps) and `build-prompt-extracted.txt` (full text of both PDFs). The PDFs
 themselves stay untracked (owner's source docs, not site content).
+
+11. **Offline / hybrid edition** (Oct 2026, owner decision): schools without reliable
+    internet can run the products on their own network — one school server computer plus
+    the router/switch the school already owns; no internet needed day-to-day. Of the two
+    models discussed (A: fully offline, B: hybrid), the owner chose **B — hybrid**: a short
+    phone-hotspot session about once a month handles software updates, licence checks and
+    an off-site backup copy. CBT is the ideal offline workload (school LAN, like JAMB
+    centres); the parent portal, payments and remote support remain online-edition
+    strengths. Requirements checklist and cost structure: `docs/OFFLINE-EDITION.md`.
+    Visitor page: `/offline` (`src/app/offline/page.tsx`, data in `src/data/offline.ts`).
+    No prices invented — the page uses the price list's existing ₦50,000 "Setup and
+    offline installation (one school site)" fee and its "online version only" hosting
+    labels. Future platform impact: the Django platform gains a "portable edition" of the
+    same products (one codebase, two deployment modes).

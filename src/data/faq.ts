@@ -50,6 +50,11 @@ export const generalFaqs: GeneralFaq[] = [
       "In the CBT system, objective questions are marked automatically and scores appear as soon as an exam is submitted. In the School Management System, results are compiled per student, subject and term. We'll show you both during your demo.",
   },
   {
+    question: "Can the system work without internet?",
+    answer:
+      "Yes — SkulSuite has an offline edition that runs on your school's own network: one server computer plus the router the school already has. Exams, attendance, records and report cards all work without internet; a short phone-hotspot session about once a month handles updates and backups. See the Offline or Online page for the full comparison.",
+  },
+  {
     question: "How much does it cost?",
     answer:
       "Pricing depends on your school's size and needs, so we don't publish fixed prices. Request a demo or contact us, and we'll put together the right package for your school.",

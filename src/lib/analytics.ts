@@ -10,7 +10,8 @@ export type AnalyticsEvent =
   | "cta_click"
   | "whatsapp_click"
   | "demo_submit"
-  | "pricing_view";
+  | "pricing_view"
+  | "offline_view";
 
 type Gtag = (...args: unknown[]) => void;
 
