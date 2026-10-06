@@ -116,3 +116,35 @@ P3 operations (renewals, reports, coupons, tickets, backups, CSV, audit, Ero ana
 Business details, logo, colours, testimonials, bank details, Paystack/Flutterwave keys, email
 account, domain/server, lawyer-approved legal text — placeholders only until the owner
 supplies them.
+
+---
+
+## v5 (Website_Build_Prompt-5.pdf, Oct 2026) — NEW §4 FAST PATH + renumbering
+
+v5 = v1.1 with ONE substantive addition: **§4 "Fast path for busy visitors"**
+(rule: a price, a demo booking or a real person within 3 taps / ~30 seconds).
+Old §4–§19 renumber to §5–§20; content unchanged. Ero gains test cases
+E16–E17. Full text: `docs/build-prompt5-extracted.txt`.
+
+### §4 items → status
+
+| Item | Status |
+|---|---|
+| "I want to…" selector under the homepage headline | ✅ homepage strip (Find the right package / See prices / Book a demo / Talk to someone) |
+| "Find my package" wizard (4 questions, one per screen, progress, Back, <60s) | ✅ `/find-my-package` (PackageFinder.tsx) |
+| Wizard result: recommended package + itemised price from the engine + 2–3 line reason | ✅ engine-backed (F4: results must match T1–T15) |
+| Wizard buttons: Download quote (PDF) / Pay now / Request invoice | ⛔ parked (Django platform — §5/§9) |
+| Wizard buttons: Book a demo (pre-filled product) / Send to my WhatsApp | ✅ demo link carries ?product=; WhatsApp pre-filled with the package + total (hidden until number set) |
+| Wizard remembers answers after refresh (F7) | ✅ sessionStorage `skulsuite-package-finder` |
+| "Try the live demo" button | ⛔ parked (needs hosted live demo) |
+| One-tap WhatsApp pre-filled with page + package | ✅ wizard result + existing product-page WhatsApp buttons |
+| "Call me back" form (name + phone only, optional best time) | ✅ `CallbackForm.tsx` on /contact; F8 (reaches admin + email ≤1 min) verifies once the form endpoint is configured |
+| Tap-to-call phone number | ✅ contact page (renders when NEXT_PUBLIC_CONTACT_PHONE is set) |
+| No paragraph >3 lines, product-page 5-line summary + compare table | ⚠️ partially (pages are already scannable; compare table not added) |
+| Menu ≤5 items (F6) | ⚠️ desktop nav has 7 links (Products, Pricing, Offline or Online, Resources, How It Works, FAQ, Contact). "Login" is platform; trimming is an owner decision — NOT silently cut because the owner asked for prominent Offline/FAQ/Resources entry points |
+| Sticky "Get my price" + WhatsApp on phones | ✅ MobileActionBar now has "Get my price" → /find-my-package + "Request a Demo" + floating WhatsApp bubble |
+| Demo/quote form ≤4 required fields (F2) | ⚠️ demo form requires name, school, phone, email (4) — already at the F2 limit |
+| Fast-path tests F1–F8 | F1/F3/F4/F7 verified in-browser at 360px; F2 verified (4 required fields); F6 open (owner decision); F5 spot-checked; F8 verifies at go-live with the form endpoint |
+| E16 (guided mode → price in ≤5 turns) | ⚠️ Ero quick replies now route to the wizard (1 tap → wizard = 5 taps total); in-chat guided mode stays with the platform Ero |
+| E17 (messages ≤2 sentences, ≤1 question) | ✅ scripted fallbacks comply; AI prompt already caps at 80 words — platform Ero should enforce strictly |
+| Phase 1 now includes "the busy-visitor fast path (§4)" | ✅ done for the static site |

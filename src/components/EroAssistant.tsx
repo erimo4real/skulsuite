@@ -44,6 +44,7 @@ const GREETINGS: Record<string, string> = {
 
 const QUICK_REPLIES = [
   "What does it cost?",
+  "Find my package",
   "Which product do I need?",
   "Book a demo",
   "Talk to a human on WhatsApp",
@@ -177,6 +178,10 @@ export function EroAssistant() {
   const handleQuick = (q: string) => {
     if (q === "Book a demo") {
       window.location.href = "/demo";
+      return;
+    }
+    if (q === "Find my package") {
+      window.location.href = "/find-my-package";
       return;
     }
     if (q === "Talk to a human on WhatsApp") {

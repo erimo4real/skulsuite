@@ -110,3 +110,17 @@ themselves stay untracked (owner's source docs, not site content).
     offline installation (one school site)" fee and its "online version only" hosting
     labels. Future platform impact: the Django platform gains a "portable edition" of the
     same products (one codebase, two deployment modes).
+
+12. **Build Prompt v5 — fast path for busy visitors** (Oct 2026, owner supplied
+    `Website_Build_Prompt-5.pdf` and asked to "update the project"). v5 = v1.1 plus ONE
+    new section, §4 (price/demo/person within 3 taps), with old §4–§19 renumbered to
+    §5–§20 and Ero gaining E16–E17. Static-friendly parts implemented:
+    homepage "I want to…" strip; `/find-my-package` 4-question wizard whose results call
+    the SAME pricing engine as the calculator (F4) and persist in sessionStorage (F7);
+    sticky mobile "Get my price" button; Call-me-back form (name + phone) on /contact;
+    WhatsApp pre-fill with the chosen package; Ero quick reply "Find my package".
+    Parked with the platform: Download-quote PDF, Pay-now/Request-invoice, live demo
+    button, in-chat guided mode. Nav stays at 7 items for now (F6 "≤5 items" flagged as
+    an owner decision — Offline/Resources/FAQ entry points were deliberately added this
+    session). Full v5 status map: `docs/BUILD-PROMPT-SPEC.md` (v5 section); full text in
+    `docs/build-prompt5-extracted.txt`.

@@ -42,12 +42,21 @@ export function MobileActionBar() {
         </a>
       ) : null}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:hidden [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]">
-        <a
-          href="/demo"
-          className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700"
-        >
-          Request a Demo
-        </a>
+        {/* Build prompt v5 §4: sticky bottom bar = "Get my price" + WhatsApp/demo */}
+        <div className="grid grid-cols-2 gap-2">
+          <a
+            href="/find-my-package"
+            className="flex min-h-[44px] items-center justify-center rounded-lg border border-brand-300 bg-white px-3 py-2.5 text-sm font-semibold text-brand-700 shadow-sm hover:border-brand-400"
+          >
+            Get my price
+          </a>
+          <a
+            href="/demo"
+            className="flex min-h-[44px] items-center justify-center rounded-lg bg-brand-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700"
+          >
+            Request a Demo
+          </a>
+        </div>
       </div>
     </>
   );

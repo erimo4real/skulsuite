@@ -157,6 +157,32 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── "I want to…" fast path (build prompt v5 §4: price, demo or a person in 3 taps) ── */}
+      <section aria-label="Quick actions" className="border-b border-slate-100 bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+          <p className="text-center text-sm font-semibold uppercase tracking-wide text-slate-500">
+            What do you want to do?
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+            {[
+              { href: "/find-my-package", label: "Find the right package", icon: "school" as const },
+              { href: "/pricing", label: "See prices", icon: "calculator" as const },
+              { href: "/demo", label: "Book a demo", icon: "users" as const },
+              { href: "/contact", label: "Talk to someone", icon: "whatsapp" as const },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex min-h-[64px] flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-3 text-center transition-colors hover:border-brand-400 hover:bg-brand-50"
+              >
+                <Icon name={item.icon} className="h-5 w-5 text-brand-600" />
+                <span className="text-sm font-semibold text-slate-800">{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Trust strip (build prompt §11: no fake numbers — pilot-schools message) ── */}
       <section className="border-b border-slate-100 bg-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-6 text-center sm:px-6 lg:flex-row lg:justify-between lg:text-left">

@@ -91,11 +91,18 @@ const kb = {
     faqs: offlineFaqs,
     page: "/offline",
   },
+  fastPath: {
+    summary:
+      "The Find My Package wizard at /find-my-package asks 4 quick questions (school size, what the school needs, offline or online, pay per term or own it) and shows the recommended package with the real price from the pricing engine. It takes under a minute. If a visitor seems to want a tailored price, send them there.",
+    page: "/find-my-package",
+  },
   howItWorks: howItWorksSteps.map((s) => ({ title: s.title, description: s.description })),
   navigation: {
     home: "/",
     products: "/products",
     pricing: "/pricing",
+    findMyPackage: "/find-my-package",
+    offline: "/offline",
     resources: "/resources",
     howItWorks: "/how-it-works",
     faq: "/faq",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import { LeadForm } from "@/components/LeadForm";
+import { CallbackForm } from "@/components/CallbackForm";
 import { Icon } from "@/components/Icon";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { whatsappMessages } from "@/lib/whatsapp";
@@ -81,6 +82,11 @@ export default function ContactPage() {
             </p>
           </div>
         </aside>
+      </div>
+
+      {/* Build prompt v5 §4: short "call me back" form — name + phone only */}
+      <div className="mx-auto mt-10 max-w-3xl">
+        <CallbackForm />
       </div>
     </section>
   );

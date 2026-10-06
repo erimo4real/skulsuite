@@ -32,9 +32,12 @@ const server = http.createServer((req, res) => {
     const urlPath = decodeURIComponent(new URL(req.url, "http://x").pathname);
     let filePath = path.join(ROOT, urlPath);
 
-    // Directory → index.html; extensionless path → its directory's index.html
+    // Directory → index.html; if the dir has no index.html, fall back to the
+    // sibling .html file (e.g. /products → out/products.html when out/products/
+    // is also a route directory).
     if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-      filePath = path.join(filePath, "index.html");
+      const index = path.join(filePath, "index.html");
+      filePath = fs.existsSync(index) ? index : filePath + ".html";
     } else if (!path.extname(filePath)) {
       const asDir = path.join(filePath, "index.html");
       if (fs.existsSync(asDir)) filePath = asDir;
