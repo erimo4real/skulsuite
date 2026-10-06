@@ -152,7 +152,7 @@ export const costStructure: OfflineCostLine[] = [
     item: "Yearly cloud hosting",
     offline: "None — needs no hosting",
     online: "₦130,000 – ₦525,000 / year by size",
-    note: "Official price list marks hosting 'online version only'; rates follow the dollar and are updated on the pricing page.",
+    note: "Official price list marks hosting 'online version only'. This is the one line that follows the dollar: servers are billed in USD and the current dollar-vs-Naira comparison is shown on the pricing page's Dollar check panel.",
   },
   {
     item: "Domain name (yearly)",

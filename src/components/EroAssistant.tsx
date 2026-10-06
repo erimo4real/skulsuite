@@ -36,6 +36,8 @@ const GREETINGS: Record<string, string> = {
   "/": "Hi, I'm Ero! 👋 I'm SkulSuite's AI helper — not a human, but I know this site well. Looking for the right product, the price for your school, or a demo?",
   "/products": "Picking a product? Tell me your school's biggest headache — exams, records, or results — and I'll point you to the right one.",
   "/pricing": "Working out your price? The calculator below gives exact totals. Or tell me your student number and what you need, and I'll guide you.",
+  "/offline": "No internet in your area? No problem — the offline edition runs on your school's own network. Want me to point you to the comparison or find your package?",
+  "/find-my-package": "Let's find your package! Answer the four quick questions and I'll hand you a real price in under a minute.",
   "/resources": "Free downloads here — price list, trial kit, sample questions. Want help choosing what to try first?",
   "/how-it-works": "Wondering how setup goes? I can walk you through the steps — or book a demo and see it live.",
   "/faq": "Still unsure after the FAQ? Ask me anything about the products or pricing.",

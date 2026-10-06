@@ -226,8 +226,16 @@ export default function OfflinePage() {
             >
               full pricing page
             </Link>{" "}
-            for exact licence prices, discounts and terms. Hosting rates follow
-            the dollar rate and are updated there.
+            for exact licence prices, discounts and terms. The online edition's
+            hosting line is the one that follows the dollar (servers are billed
+            in USD) — today's dollar-vs-Naira comparison is shown in the{" "}
+            <Link
+              href="/pricing"
+              className="font-semibold text-brand-700 hover:text-brand-800"
+            >
+              Dollar check panel
+            </Link>
+            . Going offline means that risk is simply gone.
           </p>
         </div>
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
