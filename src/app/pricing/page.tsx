@@ -21,6 +21,7 @@ import { Icon } from "@/components/Icon";
 import { CtaBanner } from "@/components/CtaBanner";
 import { ViewTracker } from "@/components/ViewTracker";
 import { PriceCalculator } from "@/components/PriceCalculator";
+import { DollarRatePanel } from "@/components/DollarRatePanel";
 
 export const metadata: Metadata = buildMetadata({
   title: "Pricing",
@@ -222,6 +223,9 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
+
+      {/* ── Dollar check: USD cost vs Naira price per tier (daily-check data) ── */}
+      <DollarRatePanel />
 
       {/* ── Discounts ── */}
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
