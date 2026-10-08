@@ -437,9 +437,11 @@ function MsgBubble({ text, fromUser = false }: { text: string; fromUser?: boolea
 }
 
 /**
- * Ero: an anime-style human character rendered in pure CSS (no images,
- * no dependencies, zero download). Big expressive eyes, blushing
- * cheeks, swept hair, ahoge and a school blazer. She/he follows the
+ * Ero: an anime-style human character with real CSS-3D depth (no
+ * images, no dependencies, zero download). The whole character lives
+ * on a perspective stage and tilts toward the pointer; the head is a
+ * rounded volume built from stacked skin slices, the hair a layered
+ * mass with a back shell, and the blazer has front/back shells. Plus
  * pointer with their head, floats, blinks, waves, and talks while
  * writing a reply. Their expression reacts to the page (money-eyes on
  * /pricing, thinking on /find-my-package, thumbs-up on /offline).
@@ -502,43 +504,57 @@ function EroFace({
       <span
         ref={rootRef}
         className={`ero-h ${state}`}
-        style={{ transform: `scale(${scale}) rotate(var(--ero-rz, 0deg))` }}
+        style={{ transform: `scale(${scale})` }}
       >
         <i className="ero-h-shadow" />
         <span className="ero-h-float">
-          {/* Neck + blazer body with collar and badge */}
-          <i className="ero-h-neck" />
-          <span className="ero-h-body" />
-          {/* Arms — left rests, right waves */}
-          <span className="ero-h-arm ero-h-arm-l">
-            <i className="ero-h-hand" />
-          </span>
-          <span className="ero-h-arm ero-h-arm-r">
-            <i className="ero-h-hand" />
-          </span>
-          {/* Head with ears */}
-          <span className="ero-h-head">
-            <span className="ero-h-eyes">
-              <span className="ero-h-eye">
-                <i className="ero-h-iris" />
+          <span className="ero-h-scene">
+            {/* Blazer body: back shell + clothed front face */}
+            <span className="ero-h-body">
+              <i className="ero-h-body-back" />
+              <span className="ero-h-body-front" />
+            </span>
+            <i className="ero-h-neck" />
+            {/* Arms — left rests, right waves; each has a depth slab */}
+            <span className="ero-h-arm ero-h-arm-l">
+              <i className="ero-h-arm-side" />
+              <i className="ero-h-hand" />
+            </span>
+            <span className="ero-h-arm ero-h-arm-r">
+              <i className="ero-h-arm-side" />
+              <i className="ero-h-hand" />
+            </span>
+            {/* Head: rounded 3D volume from stacked skin slices */}
+            <span className="ero-h-head">
+              <i className="ero-h-head-slice" />
+              <i className="ero-h-head-slice" />
+              <i className="ero-h-head-slice" />
+              <span className="ero-h-eyes">
+                <span className="ero-h-eye">
+                  <i className="ero-h-iris" />
+                </span>
+                <span className="ero-h-eye">
+                  <i className="ero-h-iris" />
+                </span>
               </span>
-              <span className="ero-h-eye">
-                <i className="ero-h-iris" />
+              <i className="ero-h-blush" />
+              <i className="ero-h-blush" />
+              <span className="ero-h-lip">
+                <span className="ero-h-mouth" />
               </span>
             </span>
-            <i className="ero-h-blush" />
-            <i className="ero-h-blush" />
-            <span className="ero-h-mouth" />
-          </span>
-          {/* Swept anime hair with gloss, ahoge and side lock */}
-          <span className="ero-h-hair" />
-          <i className="ero-h-shine" />
-          <i className="ero-h-ahoge" />
-          {/* Thinking dots (shown only in the thinking mood) */}
-          <span className="ero-h-dots">
-            <i />
-            <i />
-            <i />
+            {/* Swept anime hair: back shell + crown dome + front bangs */}
+            <span className="ero-h-hair">
+              <i className="ero-h-hair-back" />
+            </span>
+            <i className="ero-h-shine" />
+            <i className="ero-h-ahoge" />
+            {/* Thinking dots (shown only in the thinking mood) */}
+            <span className="ero-h-dots">
+              <i />
+              <i />
+              <i />
+            </span>
           </span>
         </span>
       </span>
