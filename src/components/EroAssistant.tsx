@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { usePathname } from "next/navigation";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -30,6 +36,14 @@ const DISMISS_DAYS = 7;
 const GREET_DELAY_MS = 15_000;
 
 type Msg = { role: "user" | "assistant"; content: string };
+
+/** Ero's expression changes with the page he appears on. */
+type EroMood = "happy" | "money" | "thinking" | "thumbs";
+
+/** Confetti palette for the celebration burst. */
+const CONFETTI_COLORS = ["#f59e0b", "#4ade80", "#60a5fa", "#f472b6", "#fbbf24"];
+
+type ConfettiPiece = { x: number; y: number; r: number; d: number };
 
 /** Page-aware greeting lines (admin-editable once the platform exists). */
 const GREETINGS: Record<string, string> = {
@@ -74,6 +88,7 @@ export function EroAssistant() {
   const [muted, setMuted] = useState(true);
   const [interacted, setInteracted] = useState(false);
   const [celebrating, setCelebrating] = useState(false);
+  const [confetti, setConfetti] = useState<ConfettiPiece[] | null>(null);
   const sessionId = useRef<string>("");
   const historyRef = useRef<Msg[]>([]);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -84,6 +99,16 @@ export function EroAssistant() {
   // (build prompt §12: Ero must not overlap the sticky bar or WhatsApp).
   // Env vars are inlined at build time, so this is SSR-safe.
   const whatsappPresent = !!buildWhatsAppLink("x");
+
+  // Mood: Ero's expression reacts to the page he is on.
+  const mood: EroMood =
+    pathname === "/pricing"
+      ? "money"
+      : pathname === "/find-my-package"
+        ? "thinking"
+        : pathname === "/offline"
+          ? "thumbs"
+          : "happy";
 
   // Session id + persisted mute + first-interaction tracking (E13/E14).
   useEffect(() => {
@@ -127,6 +152,18 @@ export function EroAssistant() {
   useEffect(() => {
     const onCelebrate = () => {
       setCelebrating(true);
+      // CSS-only confetti burst around the launcher (skipped for reduced motion).
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setConfetti(
+          Array.from({ length: 16 }, (_, i) => ({
+            x: Math.round((Math.random() - 0.5) * 120),
+            y: Math.round(-20 - Math.random() * 70),
+            r: Math.round((Math.random() - 0.5) * 540),
+            d: Math.round(i * 35),
+          })),
+        );
+        window.setTimeout(() => setConfetti(null), 2000);
+      }
       setMessages((m) => [
         ...m,
         {
@@ -255,7 +292,8 @@ export function EroAssistant() {
               <EroFace
                 celebrating={celebrating}
                 talking={busy}
-                className="h-9 w-9 shrink-0"
+                mood={mood}
+                scale={0.5}
               />
               <div>
                 <p className="text-sm font-bold text-[#f3f7f2]">Ero</p>
@@ -350,14 +388,31 @@ export function EroAssistant() {
           onClick={() => { setOpen(true); setBubble(null); setInteracted(true); }}
         >
           {onFormPage ? (
-            "🤖"
+            <EroFace mood={mood} scale={0.5} />
           ) : (
             <EroFace
               celebrating={celebrating}
               waving={!!bubble}
-              className="h-14 w-14"
+              mood={mood}
+              scale={0.85}
             />
           )}
+          {confetti ? (
+            <span className="ero-confetti" aria-hidden="true">
+              {confetti.map((p, i) => (
+                <i
+                  key={i}
+                  style={{
+                    background: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+                    animationDelay: `${p.d}ms`,
+                    "--cx": `${p.x}px`,
+                    "--cy": `${p.y}px`,
+                    "--cr": `${p.r}deg`,
+                  } as CSSProperties}
+                />
+              ))}
+            </span>
+          ) : null}
         </button>
       ) : null}
     </>
@@ -382,76 +437,126 @@ function MsgBubble({ text, fromUser = false }: { text: string; fromUser?: boolea
 }
 
 /**
- * Ero's face: a living inline-SVG robot character (no image payload, brand colours).
- *
- * Real animation, all pure CSS (see globals.css "Ero character animation"):
- * - floats gently at rest
- * - blinks every few seconds
- * - graduation-cap tassel swings, chest light and antenna tip glow
- * - the right arm waves on hover, while the greeting bubble is up, and in a
- *   loop while celebrating (demo-form success)
- * - while Ero is writing a reply (talking) the smile becomes a moving mouth
- * Everything is disabled for visitors who prefer reduced motion.
+ * Ero: a CSS-3D character (perspective + preserve-3d cuboids — zero
+ * dependencies, zero download). He floats, blinks, follows the pointer
+ * with his head, waves, and talks while writing a reply. His expression
+ * reacts to the page (money-eyes on /pricing, thinking on
+ * /find-my-package, thumbs-up on /offline). All motion is disabled for
+ * reduced-motion visitors (E10); static moods still show.
  */
 function EroFace({
   celebrating = false,
   talking = false,
   waving = false,
-  className = "",
+  mood = "happy",
+  scale = 1,
 }: {
   celebrating?: boolean;
   talking?: boolean;
   waving?: boolean;
-  className?: string;
+  mood?: EroMood;
+  scale?: number;
 }) {
-  const state = celebrating ? "ero-celebrate" : waving ? "ero-wave" : "";
+  const rootRef = useRef<HTMLSpanElement | null>(null);
+
+  // Pointer tracking: Ero's head turns toward the mouse (motion OK only).
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    let raf = 0;
+    const onMove = (e: PointerEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2);
+        el.style.setProperty("--ero-ry", `${Math.max(-18, Math.min(18, dx * 20))}deg`);
+        el.style.setProperty("--ero-rx", `${Math.max(-12, Math.min(12, -dy * 12))}deg`);
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const state = [
+    celebrating ? "ero-celebrate" : "",
+    waving ? "ero-wave" : "",
+    talking ? "ero3d-talking" : "",
+    `ero3d-mood-${mood}`,
+  ].join(" ");
+
   return (
-    <svg
-      viewBox="0 0 64 64"
-      className={`ero-face drop-shadow ${state} ${className}`}
+    <span
+      className="ero3d-wrap"
+      style={{ width: 64 * scale, height: 72 * scale }}
       aria-hidden="true"
     >
-      {/* Head */}
-      <rect x="14" y="20" width="36" height="30" rx="8" fill="#2563eb" />
-      {/* Screen chest */}
-      <rect x="22" y="44" width="20" height="12" rx="3" fill="#1e40af" />
-      <circle cx="32" cy="50" r="3" fill="#4ade80" className="ero-chest-light" />
-      {/* Eyes — blink together as one group */}
-      <g className="ero-eyes">
-        <circle cx="26" cy="34" r="3.2" fill="#fff" />
-        <circle cx="38" cy="34" r="3.2" fill="#fff" />
-        <circle cx="26.8" cy="34.6" r="1.5" fill="#0f172a" />
-        <circle cx="38.8" cy="34.6" r="1.5" fill="#0f172a" />
-      </g>
-      {/* Mouth — smiles at rest, moves while Ero writes a reply */}
-      {talking ? (
-        <ellipse cx="32" cy="40" rx="3.6" ry="3" fill="#fff" className="ero-mouth-talk" />
-      ) : (
-        <path
-          d="M26 40q6 4 12 0"
-          stroke="#fff"
-          strokeWidth="2"
-          fill="none"
-          strokeLinecap="round"
-        />
-      )}
-      {/* Graduation cap */}
-      <path d="M12 18 32 8l20 10-20 8-20-10z" fill="#f59e0b" />
-      {/* Cap tassel — swings gently */}
-      <g className="ero-tassel">
-        <path d="M46 21v8" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" />
-        <circle cx="46" cy="30" r="2" fill="#fbbf24" />
-      </g>
-      {/* Antenna */}
-      <path d="M32 20v-5" stroke="#93c5fd" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="32" cy="13" r="2.5" fill="#60a5fa" className="ero-antenna-tip" />
-      {/* Arms — left rests, right waves (drawn last so it passes in front) */}
-      <rect x="9" y="30" width="4" height="14" rx="2" fill="#1d4ed8" />
-      <circle cx="11" cy="46" r="2.8" fill="#93c5fd" />
-      <g className="ero-arm">
-        <rect x="51" y="24" width="4" height="13" rx="2" fill="#1d4ed8" />
-        <circle cx="53" cy="22" r="2.8" fill="#93c5fd" />
-      </g>
-    </svg>
+      <span
+        ref={rootRef}
+        className={`ero3d ${state}`}
+        style={{ transform: `scale(${scale})` }}
+      >
+        <i className="ero3d-shadow" />
+        <span className="ero3d-float">
+          <span className="ero3d-scene">
+            {/* Chest cuboid with glowing light */}
+            <span className="ero3d-chest">
+              <i className="ero3d-chest-front">
+                <i className="ero3d-chest-light" />
+              </i>
+              <i className="ero3d-chest-back" />
+              <i className="ero3d-chest-left" />
+              <i className="ero3d-chest-right" />
+              <i className="ero3d-chest-top" />
+              <i className="ero3d-chest-bottom" />
+            </span>
+            {/* Head cuboid — face on the front plane */}
+            <span className="ero3d-head">
+              <i className="ero3d-head-front">
+                <span className="ero3d-eye">
+                  <i className="ero3d-pupil" />
+                </span>
+                <span className="ero3d-eye">
+                  <i className="ero3d-pupil" />
+                </span>
+                <span className="ero3d-mouth" />
+              </i>
+              <i className="ero3d-head-back" />
+              <i className="ero3d-head-left" />
+              <i className="ero3d-head-right" />
+              <i className="ero3d-head-top" />
+              <i className="ero3d-head-bottom" />
+            </span>
+            {/* Graduation cap with swinging tassel */}
+            <span className="ero3d-cap">
+              <i className="ero3d-tassel" />
+            </span>
+            {/* Antenna with glowing tip */}
+            <span className="ero3d-antenna">
+              <i className="ero3d-antenna-tip" />
+            </span>
+            {/* Arms — left rests, right waves */}
+            <span className="ero3d-arm ero3d-arm-l">
+              <i className="ero3d-hand" />
+            </span>
+            <span className="ero3d-arm ero3d-arm-r">
+              <i className="ero3d-hand" />
+            </span>
+            {/* Thinking dots (shown only in the thinking mood) */}
+            <span className="ero3d-dots">
+              <i />
+              <i />
+              <i />
+            </span>
+          </span>
+        </span>
+      </span>
+    </span>
   );
 }

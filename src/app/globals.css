@@ -177,97 +177,553 @@
   }
 }
 
-/* ── Ero character animation (build prompt §12) ────────────────────
-   Ero is a living character, not a static icon. All motion is pure
-   CSS on the inline SVG — zero extra payload, nothing to download —
-   and every animation is switched off entirely for visitors who
-   prefer reduced motion (E10), exactly like the drawer and chalk
-   effects above.
+/* ── Ero: CSS-3D character (build prompt §12) ─────────────────────
+   Ero is a real 3D-looking character built entirely with CSS
+   (perspective + preserve-3d cuboids) — zero dependencies, zero
+   download, works offline. His head turns toward the pointer, he
+   floats, blinks, and changes expression with the page:
+   money-eyes on /pricing, thinking on /find-my-package, thumbs-up
+   on /offline. All motion is switched off for visitors who prefer
+   reduced motion (E10); static moods still show.
 
-   States: .ero-face always (idle float, blink, tassel, glow);
-   .ero-wave when the greeting bubble is up; .ero-celebrate when the
-   demo form succeeds; .ero-btn:hover waves the arm on hover. */
-.ero-face .ero-eyes,
-.ero-face .ero-tassel,
-.ero-face .ero-arm,
-.ero-face .ero-mouth-talk {
-  transform-box: fill-box;
+   States: .ero-wave (greeting bubble), .ero-celebrate (demo-form
+   success), .ero3d-talking (writing a reply), .ero3d-mood-* (page),
+   .ero-btn:hover (wave at the cursor). */
+.ero3d-wrap {
+  position: relative;
+  display: inline-block;
+  flex: none;
 }
 
-.ero-face .ero-eyes {
+.ero3d {
+  --ero-rx: 0deg;
+  --ero-ry: 0deg;
+  --ero-rz: 0deg;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 72px;
+  perspective: 240px;
+  transform-origin: top left;
+}
+
+.ero3d-shadow {
+  position: absolute;
+  left: 50%;
+  top: 67px;
+  width: 32px;
+  height: 6px;
+  margin-left: -16px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(15, 23, 42, 0.28), transparent);
+  display: block;
+}
+
+.ero3d-float {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.ero3d-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--ero-rx)) rotateY(var(--ero-ry)) rotateZ(var(--ero-rz));
+}
+
+.ero3d-scene > span {
+  display: block;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+/* Head cuboid: 40 × 30 × 18, anchored at (12, 22) */
+.ero3d-head {
+  left: 12px;
+  top: 22px;
+  width: 40px;
+  height: 30px;
+}
+
+.ero3d-head > i,
+.ero3d-chest > i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+}
+
+.ero3d-head-front {
+  width: 40px;
+  height: 30px;
+  background: #2563eb;
+  border-radius: 6px;
+  transform: translate(-50%, -50%) translateZ(9px);
+}
+
+.ero3d-head-back {
+  width: 40px;
+  height: 30px;
+  background: #1e40af;
+  border-radius: 6px;
+  transform: translate(-50%, -50%) translateZ(-9px) rotateY(180deg);
+}
+
+.ero3d-head-right {
+  width: 18px;
+  height: 30px;
+  background: #1d4ed8;
+  border-radius: 4px;
+  transform: translate(-50%, -50%) translateX(20px) rotateY(90deg);
+}
+
+.ero3d-head-left {
+  width: 18px;
+  height: 30px;
+  background: #1e3a8a;
+  border-radius: 4px;
+  transform: translate(-50%, -50%) translateX(-20px) rotateY(-90deg);
+}
+
+.ero3d-head-top {
+  width: 40px;
+  height: 18px;
+  background: #3b82f6;
+  transform: translate(-50%, -50%) translateY(-15px) rotateX(90deg);
+}
+
+.ero3d-head-bottom {
+  width: 40px;
+  height: 18px;
+  background: #1e3a8a;
+  transform: translate(-50%, -50%) translateY(15px) rotateX(-90deg);
+}
+
+/* Chest cuboid: 24 × 12 × 10, anchored at (20, 56) */
+.ero3d-chest {
+  left: 20px;
+  top: 56px;
+  width: 24px;
+  height: 12px;
+}
+
+.ero3d-chest-front {
+  width: 24px;
+  height: 12px;
+  background: #1e40af;
+  border-radius: 4px;
+  transform: translate(-50%, -50%) translateZ(5px);
+}
+
+.ero3d-chest-back {
+  width: 24px;
+  height: 12px;
+  background: #172554;
+  border-radius: 4px;
+  transform: translate(-50%, -50%) translateZ(-5px) rotateY(180deg);
+}
+
+.ero3d-chest-right {
+  width: 10px;
+  height: 12px;
+  background: #1e3a8a;
+  transform: translate(-50%, -50%) translateX(12px) rotateY(90deg);
+}
+
+.ero3d-chest-left {
+  width: 10px;
+  height: 12px;
+  background: #172554;
+  transform: translate(-50%, -50%) translateX(-12px) rotateY(-90deg);
+}
+
+.ero3d-chest-top {
+  width: 24px;
+  height: 10px;
+  background: #2563eb;
+  transform: translate(-50%, -50%) translateY(-6px) rotateX(90deg);
+}
+
+.ero3d-chest-bottom {
+  width: 24px;
+  height: 10px;
+  background: #172554;
+  transform: translate(-50%, -50%) translateY(6px) rotateX(-90deg);
+}
+
+.ero3d-chest-light {
+  position: absolute;
+  left: 9.5px;
+  top: 3.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4ade80;
+  display: block;
+}
+
+/* Face on the head's front: eyes + mouth */
+.ero3d-eye {
+  position: absolute;
+  top: 8px;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  display: block;
   transform-origin: center;
 }
 
-.ero-face .ero-tassel {
-  transform-origin: center top;
+.ero3d-eye + .ero3d-eye {
+  left: 25px;
 }
 
-.ero-face .ero-arm {
+.ero3d-pupil {
+  position: absolute;
+  left: 2.5px;
+  top: 2.5px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #0f172a;
+  display: block;
+}
+
+.ero3d-mouth {
+  position: absolute;
+  left: 13px;
+  top: 18px;
+  width: 14px;
+  height: 7px;
+  border-bottom: 2.5px solid #fff;
+  border-radius: 0 0 12px 12px;
+  display: block;
+  transform-origin: center;
+}
+
+/* ── Page moods ── */
+
+/* Money-eyes on /pricing */
+.ero3d-mood-money .ero3d-eye {
+  background: #fbbf24;
+}
+
+.ero3d-mood-money .ero3d-pupil {
+  background: transparent;
+}
+
+.ero3d-mood-money .ero3d-eye::after {
+  content: "₦";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  line-height: 1;
+  font-weight: 800;
+  color: #92400e;
+  font-family: system-ui, sans-serif;
+}
+
+.ero3d-mood-money .ero3d-mouth {
+  width: 18px;
+  left: 11px;
+  border-bottom-width: 3px;
+}
+
+/* Thinking on /find-my-package */
+.ero3d-mood-thinking {
+  --ero-rz: -6deg;
+}
+
+.ero3d-mood-thinking .ero3d-eye {
+  height: 4px;
+  top: 10px;
+  border-radius: 3px;
+}
+
+.ero3d-mood-thinking .ero3d-pupil {
+  display: none;
+}
+
+.ero3d-mood-thinking .ero3d-mouth {
+  width: 9px;
+  left: 16px;
+  top: 19px;
+  height: 2px;
+  border-bottom: 0;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.ero3d-dots {
+  display: none;
+}
+
+.ero3d-mood-thinking .ero3d-dots {
+  display: block;
+  left: 42px;
+  top: -2px;
+  width: 20px;
+  height: 12px;
+}
+
+.ero3d-dots i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fbbf24;
+  display: block;
+}
+
+.ero3d-dots i:nth-child(1) {
+  left: 0;
+  top: 8px;
+}
+
+.ero3d-dots i:nth-child(2) {
+  left: 7px;
+  top: 4px;
+}
+
+.ero3d-dots i:nth-child(3) {
+  left: 14px;
+  top: 0;
+}
+
+/* Thumbs-up + wink on /offline */
+.ero3d-mood-thumbs .ero3d-arm-r {
+  height: 9px;
+  top: 34px;
+}
+
+.ero3d-mood-thumbs .ero3d-arm-r .ero3d-hand {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  top: -7px;
+  left: -2.5px;
+}
+
+.ero3d-mood-thumbs .ero3d-arm-r::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -14px;
+  width: 3.5px;
+  height: 8px;
+  border-radius: 2px;
+  background: #93c5fd;
+  transform: rotate(-10deg);
+}
+
+.ero3d-mood-thumbs .ero3d-eye:first-of-type {
+  animation: none;
+  transform: scaleY(0.15);
+}
+
+/* Graduation cap: tilted mortarboard + swinging tassel */
+.ero3d-cap {
+  left: 32px;
+  top: 16px;
+  width: 34px;
+  height: 34px;
+  background: #f59e0b;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 2px #b45309;
+  transform: translate(-50%, -50%) translateZ(4px) rotateX(58deg) rotateZ(45deg);
+}
+
+.ero3d-tassel {
+  position: absolute;
+  right: 3px;
+  top: 24px;
+  width: 2.5px;
+  height: 9px;
+  background: #b45309;
+  border-radius: 1px;
+  transform-origin: top center;
+  display: block;
+}
+
+.ero3d-tassel::after {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  bottom: -4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fbbf24;
+  display: block;
+}
+
+/* Antenna + arms */
+.ero3d-antenna {
+  left: 31px;
+  top: 12px;
+  width: 2px;
+  height: 10px;
+  background: #93c5fd;
+  border-radius: 1px;
+  transform: translateZ(14px);
+}
+
+.ero3d-antenna-tip {
+  position: absolute;
+  left: -1.5px;
+  top: -4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #60a5fa;
+  display: block;
+}
+
+.ero3d-arm {
+  width: 4px;
+  height: 13px;
+  background: #1d4ed8;
+  border-radius: 2px;
   transform-origin: 50% 100%;
 }
 
-.ero-face .ero-mouth-talk {
-  transform-origin: center;
+.ero3d-arm-l {
+  left: 8px;
+  top: 28px;
+}
+
+.ero3d-arm-r {
+  left: 52px;
+  top: 26px;
+}
+
+.ero3d-hand {
+  position: absolute;
+  left: -1px;
+  top: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #93c5fd;
+  display: block;
+}
+
+/* While Ero writes a reply, the mouth opens and moves
+   (declared after the moods so it wins when both apply). */
+.ero3d-talking .ero3d-mouth {
+  width: 10px;
+  height: 7px;
+  left: 15px;
+  top: 17px;
+  border-bottom: 0;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* Confetti burst on demo-form success (rendered only when motion is OK) */
+.ero-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ero-confetti i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 9px;
+  margin: -4.5px 0 0 -3px;
+  border-radius: 2px;
+  opacity: 0;
+  display: block;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ero-face {
-    animation: ero-float 3.6s ease-in-out infinite;
+  .ero3d-scene {
+    transition: transform 0.25s ease-out;
   }
 
-  .ero-face .ero-eyes {
-    animation: ero-blink 4.4s infinite;
+  .ero3d-float {
+    animation: ero3d-float 3.6s ease-in-out infinite;
   }
 
-  .ero-face .ero-tassel {
-    animation: ero-tassel 3.6s ease-in-out infinite;
+  .ero3d-eye {
+    animation: ero3d-blink 4.4s infinite;
   }
 
-  .ero-face .ero-chest-light,
-  .ero-face .ero-antenna-tip {
-    animation: ero-glow 2.6s ease-in-out infinite;
+  .ero3d-tassel {
+    animation: ero3d-tassel 3.2s ease-in-out infinite;
   }
 
-  .ero-face .ero-antenna-tip {
+  .ero3d-chest-light,
+  .ero3d-antenna-tip {
+    animation: ero3d-glow 2.6s ease-in-out infinite;
+  }
+
+  .ero3d-antenna-tip {
     animation-delay: 1.3s;
   }
 
-  /* Wave when the greeting bubble shows or on launcher hover */
-  .ero-wave .ero-arm {
-    animation: ero-wave 0.7s ease-in-out 3;
+  .ero3d-talking .ero3d-mouth {
+    animation: ero3d-mouth 0.45s ease-in-out infinite;
   }
 
-  .ero-btn:hover .ero-arm {
-    animation: ero-wave 0.8s ease-in-out 2;
+  .ero3d.ero-wave .ero3d-arm-r {
+    animation: ero3d-wave 0.7s ease-in-out 3;
   }
 
-  /* Celebrate: arm waves continuously, lights pulse faster */
-  .ero-celebrate .ero-arm {
-    animation: ero-wave 0.5s ease-in-out infinite;
+  .ero-btn:hover .ero3d-arm-r {
+    animation: ero3d-wave 0.8s ease-in-out 2;
   }
 
-  .ero-celebrate .ero-chest-light,
-  .ero-celebrate .ero-antenna-tip {
+  .ero3d.ero-celebrate .ero3d-arm-r {
+    animation: ero3d-wave 0.5s ease-in-out infinite;
+  }
+
+  .ero3d.ero-celebrate .ero3d-chest-light,
+  .ero3d.ero-celebrate .ero3d-antenna-tip {
     animation-duration: 0.9s;
     animation-delay: 0s;
   }
 
-  /* While Ero writes a reply his mouth moves */
-  .ero-face .ero-mouth-talk {
-    animation: ero-mouth-talk 0.45s ease-in-out infinite;
+  .ero3d.ero-celebrate .ero3d-float {
+    animation: ero3d-hop 0.55s ease-in-out infinite;
   }
 
-  @keyframes ero-float {
+  .ero3d-mood-thinking .ero3d-dots i {
+    animation: ero3d-dot 1.4s ease-in-out infinite;
+  }
+
+  .ero3d-mood-thinking .ero3d-dots i:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .ero3d-mood-thinking .ero3d-dots i:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  .ero-confetti i {
+    animation: ero-confetti-pop 1.1s ease-out forwards;
+  }
+
+  @keyframes ero3d-float {
     0%,
     100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-2px);
+      transform: translateY(-2.5px);
     }
   }
 
-  @keyframes ero-blink {
+  @keyframes ero3d-blink {
     0%,
     91%,
     97%,
@@ -280,33 +736,33 @@
     }
   }
 
-  @keyframes ero-tassel {
+  @keyframes ero3d-tassel {
     0%,
     100% {
-      transform: rotate(4deg);
+      transform: rotate(6deg);
     }
     50% {
-      transform: rotate(-4deg);
+      transform: rotate(-6deg);
     }
   }
 
-  @keyframes ero-glow {
+  @keyframes ero3d-glow {
     0%,
     100% {
-      opacity: 0.5;
+      opacity: 0.45;
     }
     50% {
       opacity: 1;
     }
   }
 
-  @keyframes ero-wave {
+  @keyframes ero3d-wave {
     0%,
     100% {
       transform: rotate(0deg);
     }
     25% {
-      transform: rotate(-28deg);
+      transform: rotate(-32deg);
     }
     60% {
       transform: rotate(14deg);
@@ -316,7 +772,7 @@
     }
   }
 
-  @keyframes ero-mouth-talk {
+  @keyframes ero3d-mouth {
     0%,
     100% {
       transform: scaleY(0.35);
@@ -325,4 +781,44 @@
       transform: scaleY(1);
     }
   }
+
+  @keyframes ero3d-hop {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    30% {
+      transform: translateY(-5px) rotate(-3deg);
+    }
+    60% {
+      transform: translateY(0) rotate(3deg);
+    }
+  }
+
+  @keyframes ero3d-dot {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes ero-confetti-pop {
+    0% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--cx, 0px), var(--cy, -40px)) rotate(var(--cr, 0deg)) scale(0.6);
+      opacity: 0;
+    }
+  }
 }
+
