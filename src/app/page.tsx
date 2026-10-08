@@ -126,7 +126,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section className="border-b border-slate-100 bg-gradient-to-b from-brand-50/60 to-white">
+      <section className="overflow-x-clip border-b border-slate-100 bg-gradient-to-b from-brand-50/60 to-white">
         <div className="mx-auto grid max-w-6xl items-center gap-14 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-2 lg:gap-12">
           <div className="text-center lg:text-left">
             <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">

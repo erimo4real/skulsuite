@@ -88,7 +88,7 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile drawer: overlay + right slide-in panel */}
+      {/* Mobile drawer: overlay + panel sliding in from the LEFT edge */}
       {open ? (
         <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Menu">
           <button
@@ -99,7 +99,7 @@ export function Navbar() {
           />
           <nav
             aria-label="Mobile"
-            className="drawer-panel absolute inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col border-l border-slate-200 bg-white shadow-xl"
+            className="drawer-panel absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <Logo />

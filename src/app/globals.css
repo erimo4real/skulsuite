@@ -94,6 +94,14 @@
     scroll-behavior: smooth;
   }
 
+  /* Decorative blur glows bleed past the viewport edge on phones and
+     caused horizontal scroll. `clip` (not `hidden`) trims them without
+     turning the body into a scroll container, so anchors and sticky
+     positioning keep working. */
+  body {
+    overflow-x: clip;
+  }
+
   /* Anchored sections clear the sticky navbar when linked to (PRD §21). */
   section[id],
   div[id] {
@@ -134,17 +142,19 @@
 }
 
 /* ── Mobile drawer (slide-in menu, mobile-first per build prompt §11) ──
-   Only animates when the user has not asked for reduced motion; with
-   reduced motion the drawer still opens, it just appears instantly. */
+   The panel slides in from the LEFT edge towards the right, over a dim
+   overlay. Only animates when the user has not asked for reduced
+   motion; with reduced motion the drawer still opens, it just appears
+   instantly. */
 @media (prefers-reduced-motion: no-preference) {
   .drawer-panel {
-    animation: drawer-in 0.25s ease-out;
+    animation: drawer-in 0.28s ease-out;
   }
 
   @keyframes drawer-in {
     from {
-      transform: translateX(1.5rem);
-      opacity: 0;
+      transform: translateX(-100%);
+      opacity: 0.6;
     }
     to {
       transform: none;
