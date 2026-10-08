@@ -176,3 +176,153 @@
     }
   }
 }
+
+/* ── Ero character animation (build prompt §12) ────────────────────
+   Ero is a living character, not a static icon. All motion is pure
+   CSS on the inline SVG — zero extra payload, nothing to download —
+   and every animation is switched off entirely for visitors who
+   prefer reduced motion (E10), exactly like the drawer and chalk
+   effects above.
+
+   States: .ero-face always (idle float, blink, tassel, glow);
+   .ero-wave when the greeting bubble is up; .ero-celebrate when the
+   demo form succeeds; .ero-btn:hover waves the arm on hover. */
+.ero-face .ero-eyes,
+.ero-face .ero-tassel,
+.ero-face .ero-arm,
+.ero-face .ero-mouth-talk {
+  transform-box: fill-box;
+}
+
+.ero-face .ero-eyes {
+  transform-origin: center;
+}
+
+.ero-face .ero-tassel {
+  transform-origin: center top;
+}
+
+.ero-face .ero-arm {
+  transform-origin: 50% 100%;
+}
+
+.ero-face .ero-mouth-talk {
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ero-face {
+    animation: ero-float 3.6s ease-in-out infinite;
+  }
+
+  .ero-face .ero-eyes {
+    animation: ero-blink 4.4s infinite;
+  }
+
+  .ero-face .ero-tassel {
+    animation: ero-tassel 3.6s ease-in-out infinite;
+  }
+
+  .ero-face .ero-chest-light,
+  .ero-face .ero-antenna-tip {
+    animation: ero-glow 2.6s ease-in-out infinite;
+  }
+
+  .ero-face .ero-antenna-tip {
+    animation-delay: 1.3s;
+  }
+
+  /* Wave when the greeting bubble shows or on launcher hover */
+  .ero-wave .ero-arm {
+    animation: ero-wave 0.7s ease-in-out 3;
+  }
+
+  .ero-btn:hover .ero-arm {
+    animation: ero-wave 0.8s ease-in-out 2;
+  }
+
+  /* Celebrate: arm waves continuously, lights pulse faster */
+  .ero-celebrate .ero-arm {
+    animation: ero-wave 0.5s ease-in-out infinite;
+  }
+
+  .ero-celebrate .ero-chest-light,
+  .ero-celebrate .ero-antenna-tip {
+    animation-duration: 0.9s;
+    animation-delay: 0s;
+  }
+
+  /* While Ero writes a reply his mouth moves */
+  .ero-face .ero-mouth-talk {
+    animation: ero-mouth-talk 0.45s ease-in-out infinite;
+  }
+
+  @keyframes ero-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+  @keyframes ero-blink {
+    0%,
+    91%,
+    97%,
+    100% {
+      transform: scaleY(1);
+    }
+    93%,
+    95% {
+      transform: scaleY(0.12);
+    }
+  }
+
+  @keyframes ero-tassel {
+    0%,
+    100% {
+      transform: rotate(4deg);
+    }
+    50% {
+      transform: rotate(-4deg);
+    }
+  }
+
+  @keyframes ero-glow {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes ero-wave {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-28deg);
+    }
+    60% {
+      transform: rotate(14deg);
+    }
+    80% {
+      transform: rotate(-10deg);
+    }
+  }
+
+  @keyframes ero-mouth-talk {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+}

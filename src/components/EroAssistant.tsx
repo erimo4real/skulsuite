@@ -252,9 +252,11 @@ export function EroAssistant() {
           {/* Header */}
           <div className="flex items-center justify-between border-b-4 border-[#7a5230] bg-[#16301f] px-3.5 py-2.5">
             <div className="flex items-center gap-2">
-              <span className={`text-xl ${celebrating ? "animate-bounce" : ""}`} aria-hidden="true">
-                🤖
-              </span>
+              <EroFace
+                celebrating={celebrating}
+                talking={busy}
+                className="h-9 w-9 shrink-0"
+              />
               <div>
                 <p className="text-sm font-bold text-[#f3f7f2]">Ero</p>
                 <p className="text-[10px] font-medium text-[#a8c3a8]">AI assistant · SkulSuite</p>
@@ -338,7 +340,7 @@ export function EroAssistant() {
         <button
           type="button"
           aria-label={onFormPage ? "Need help? Open Ero chat" : "Chat with Ero, the AI assistant"}
-          className={`fixed right-4 z-40 flex items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 ${
+          className={`ero-btn fixed right-4 z-40 flex items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 ${
             onFormPage
               ? "bottom-4 h-11 w-11 text-lg"
               : `h-14 w-14 text-2xl ${
@@ -347,7 +349,15 @@ export function EroAssistant() {
           } ${celebrating ? "animate-bounce" : ""}`}
           onClick={() => { setOpen(true); setBubble(null); setInteracted(true); }}
         >
-          {onFormPage ? "🤖" : <EroFace celebrating={celebrating} />}
+          {onFormPage ? (
+            "🤖"
+          ) : (
+            <EroFace
+              celebrating={celebrating}
+              waving={!!bubble}
+              className="h-14 w-14"
+            />
+          )}
         </button>
       ) : null}
     </>
@@ -371,29 +381,77 @@ function MsgBubble({ text, fromUser = false }: { text: string; fromUser?: boolea
   );
 }
 
-/** Ero's face: inline SVG robot with graduation cap (no image payload, brand colours). */
-function EroFace({ celebrating = false }: { celebrating?: boolean }) {
+/**
+ * Ero's face: a living inline-SVG robot character (no image payload, brand colours).
+ *
+ * Real animation, all pure CSS (see globals.css "Ero character animation"):
+ * - floats gently at rest
+ * - blinks every few seconds
+ * - graduation-cap tassel swings, chest light and antenna tip glow
+ * - the right arm waves on hover, while the greeting bubble is up, and in a
+ *   loop while celebrating (demo-form success)
+ * - while Ero is writing a reply (talking) the smile becomes a moving mouth
+ * Everything is disabled for visitors who prefer reduced motion.
+ */
+function EroFace({
+  celebrating = false,
+  talking = false,
+  waving = false,
+  className = "",
+}: {
+  celebrating?: boolean;
+  talking?: boolean;
+  waving?: boolean;
+  className?: string;
+}) {
+  const state = celebrating ? "ero-celebrate" : waving ? "ero-wave" : "";
   return (
-    <svg viewBox="0 0 64 64" className="h-14 w-14 drop-shadow" aria-hidden="true">
+    <svg
+      viewBox="0 0 64 64"
+      className={`ero-face drop-shadow ${state} ${className}`}
+      aria-hidden="true"
+    >
       {/* Head */}
       <rect x="14" y="20" width="36" height="30" rx="8" fill="#2563eb" />
       {/* Screen chest */}
       <rect x="22" y="44" width="20" height="12" rx="3" fill="#1e40af" />
-      <circle cx="32" cy="50" r="3" fill="#4ade80" className={celebrating ? "animate-ping" : ""} />
-      {/* Eyes */}
-      <circle cx="26" cy="34" r="3.2" fill="#fff" />
-      <circle cx="38" cy="34" r="3.2" fill="#fff" />
-      <circle cx="26.8" cy="34.6" r="1.5" fill="#0f172a" />
-      <circle cx="38.8" cy="34.6" r="1.5" fill="#0f172a" />
-      {/* Smile */}
-      <path d="M26 40q6 4 12 0" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <circle cx="32" cy="50" r="3" fill="#4ade80" className="ero-chest-light" />
+      {/* Eyes — blink together as one group */}
+      <g className="ero-eyes">
+        <circle cx="26" cy="34" r="3.2" fill="#fff" />
+        <circle cx="38" cy="34" r="3.2" fill="#fff" />
+        <circle cx="26.8" cy="34.6" r="1.5" fill="#0f172a" />
+        <circle cx="38.8" cy="34.6" r="1.5" fill="#0f172a" />
+      </g>
+      {/* Mouth — smiles at rest, moves while Ero writes a reply */}
+      {talking ? (
+        <ellipse cx="32" cy="40" rx="3.6" ry="3" fill="#fff" className="ero-mouth-talk" />
+      ) : (
+        <path
+          d="M26 40q6 4 12 0"
+          stroke="#fff"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+        />
+      )}
       {/* Graduation cap */}
       <path d="M12 18 32 8l20 10-20 8-20-10z" fill="#f59e0b" />
-      <path d="M46 21v8" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="46" cy="30" r="2" fill="#fbbf24" />
+      {/* Cap tassel — swings gently */}
+      <g className="ero-tassel">
+        <path d="M46 21v8" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx="46" cy="30" r="2" fill="#fbbf24" />
+      </g>
       {/* Antenna */}
       <path d="M32 20v-5" stroke="#93c5fd" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="32" cy="13" r="2.5" fill="#60a5fa" className={celebrating ? "animate-ping" : ""} />
+      <circle cx="32" cy="13" r="2.5" fill="#60a5fa" className="ero-antenna-tip" />
+      {/* Arms — left rests, right waves (drawn last so it passes in front) */}
+      <rect x="9" y="30" width="4" height="14" rx="2" fill="#1d4ed8" />
+      <circle cx="11" cy="46" r="2.8" fill="#93c5fd" />
+      <g className="ero-arm">
+        <rect x="51" y="24" width="4" height="13" rx="2" fill="#1d4ed8" />
+        <circle cx="53" cy="22" r="2.8" fill="#93c5fd" />
+      </g>
     </svg>
   );
 }
