@@ -437,12 +437,14 @@ function MsgBubble({ text, fromUser = false }: { text: string; fromUser?: boolea
 }
 
 /**
- * Ero: a CSS-3D character (perspective + preserve-3d cuboids — zero
- * dependencies, zero download). He floats, blinks, follows the pointer
- * with his head, waves, and talks while writing a reply. His expression
- * reacts to the page (money-eyes on /pricing, thinking on
- * /find-my-package, thumbs-up on /offline). All motion is disabled for
- * reduced-motion visitors (E10); static moods still show.
+ * Ero: an anime-style human character rendered in pure CSS (no images,
+ * no dependencies, zero download). Big expressive eyes, blushing
+ * cheeks, swept hair, ahoge and a school blazer. She/he follows the
+ * pointer with their head, floats, blinks, waves, and talks while
+ * writing a reply. Their expression reacts to the page (money-eyes on
+ * /pricing, thinking on /find-my-package, thumbs-up on /offline).
+ * All motion is disabled for reduced-motion visitors (E10); static
+ * moods still show.
  */
 function EroFace({
   celebrating = false,
@@ -487,73 +489,56 @@ function EroFace({
   const state = [
     celebrating ? "ero-celebrate" : "",
     waving ? "ero-wave" : "",
-    talking ? "ero3d-talking" : "",
-    `ero3d-mood-${mood}`,
+    talking ? "ero-h-talking" : "",
+    `ero-h-mood-${mood}`,
   ].join(" ");
 
   return (
     <span
-      className="ero3d-wrap"
+      className="ero-h-wrap"
       style={{ width: 64 * scale, height: 72 * scale }}
       aria-hidden="true"
     >
       <span
         ref={rootRef}
-        className={`ero3d ${state}`}
-        style={{ transform: `scale(${scale})` }}
+        className={`ero-h ${state}`}
+        style={{ transform: `scale(${scale}) rotate(var(--ero-rz, 0deg))` }}
       >
-        <i className="ero3d-shadow" />
-        <span className="ero3d-float">
-          <span className="ero3d-scene">
-            {/* Chest cuboid with glowing light */}
-            <span className="ero3d-chest">
-              <i className="ero3d-chest-front">
-                <i className="ero3d-chest-light" />
-              </i>
-              <i className="ero3d-chest-back" />
-              <i className="ero3d-chest-left" />
-              <i className="ero3d-chest-right" />
-              <i className="ero3d-chest-top" />
-              <i className="ero3d-chest-bottom" />
+        <i className="ero-h-shadow" />
+        <span className="ero-h-float">
+          {/* Neck + blazer body with collar and badge */}
+          <i className="ero-h-neck" />
+          <span className="ero-h-body" />
+          {/* Arms — left rests, right waves */}
+          <span className="ero-h-arm ero-h-arm-l">
+            <i className="ero-h-hand" />
+          </span>
+          <span className="ero-h-arm ero-h-arm-r">
+            <i className="ero-h-hand" />
+          </span>
+          {/* Head with ears */}
+          <span className="ero-h-head">
+            <span className="ero-h-eyes">
+              <span className="ero-h-eye">
+                <i className="ero-h-iris" />
+              </span>
+              <span className="ero-h-eye">
+                <i className="ero-h-iris" />
+              </span>
             </span>
-            {/* Head cuboid — face on the front plane */}
-            <span className="ero3d-head">
-              <i className="ero3d-head-front">
-                <span className="ero3d-eye">
-                  <i className="ero3d-pupil" />
-                </span>
-                <span className="ero3d-eye">
-                  <i className="ero3d-pupil" />
-                </span>
-                <span className="ero3d-mouth" />
-              </i>
-              <i className="ero3d-head-back" />
-              <i className="ero3d-head-left" />
-              <i className="ero3d-head-right" />
-              <i className="ero3d-head-top" />
-              <i className="ero3d-head-bottom" />
-            </span>
-            {/* Graduation cap with swinging tassel */}
-            <span className="ero3d-cap">
-              <i className="ero3d-tassel" />
-            </span>
-            {/* Antenna with glowing tip */}
-            <span className="ero3d-antenna">
-              <i className="ero3d-antenna-tip" />
-            </span>
-            {/* Arms — left rests, right waves */}
-            <span className="ero3d-arm ero3d-arm-l">
-              <i className="ero3d-hand" />
-            </span>
-            <span className="ero3d-arm ero3d-arm-r">
-              <i className="ero3d-hand" />
-            </span>
-            {/* Thinking dots (shown only in the thinking mood) */}
-            <span className="ero3d-dots">
-              <i />
-              <i />
-              <i />
-            </span>
+            <i className="ero-h-blush" />
+            <i className="ero-h-blush" />
+            <span className="ero-h-mouth" />
+          </span>
+          {/* Swept anime hair with gloss, ahoge and side lock */}
+          <span className="ero-h-hair" />
+          <i className="ero-h-shine" />
+          <i className="ero-h-ahoge" />
+          {/* Thinking dots (shown only in the thinking mood) */}
+          <span className="ero-h-dots">
+            <i />
+            <i />
+            <i />
           </span>
         </span>
       </span>
