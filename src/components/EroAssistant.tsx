@@ -554,13 +554,14 @@ function EroFace({
   }, []);
 
   // Idle micro-expressions: while the character is unwatched (sway active,
-  // no data-moving), it occasionally raises an eyebrow, blinks twice, or
-  // does a little stretch. Every 4–9s of stillness, one behavior, 1.2s max.
+  // no data-moving), it occasionally raises an eyebrow, blinks twice,
+  // stretches, floofs its hair, or does a little hop. Every 4–9s of
+  // stillness, one behavior, 1.3s max.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const GESTURES = ["ero-brow", "ero-blink2", "ero-stretch"] as const;
+    const GESTURES = ["ero-brow", "ero-blink2", "ero-stretch", "ero-floof", "ero-hop2"] as const;
     let timer: ReturnType<typeof setTimeout>;
     let clearT: ReturnType<typeof setTimeout>;
     const pick = () => {
@@ -568,7 +569,7 @@ function EroFace({
       const pick_ = GESTURES[Math.floor(Math.random() * GESTURES.length)];
       el.classList.add(pick_);
       clearTimeout(clearT);
-      clearT = setTimeout(() => el.classList.remove(pick_), 1300);
+      clearT = setTimeout(() => el.classList.remove(pick_), 1400);
     };
     const schedule = () => {
       clearTimeout(timer);
