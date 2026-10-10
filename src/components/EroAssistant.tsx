@@ -462,6 +462,7 @@ function EroFace({
   scale?: number;
 }) {
   const rootRef = useRef<HTMLSpanElement | null>(null);
+  const idleTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Pointer tracking: Ero's head turns toward the mouse (motion OK only).
   useEffect(() => {
@@ -474,11 +475,15 @@ function EroFace({
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
+        const ex = e.clientX;
+        const ey = e.clientY;
         const r = el.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2);
-        const dy = (e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2);
+        const dx = (ex - (r.left + r.width / 2)) / (window.innerWidth / 2);
+        const dy = (ey - (r.top + r.height / 2)) / (window.innerHeight / 2);
         el.style.setProperty("--ero-ry", `${Math.max(-18, Math.min(18, dx * 20))}deg`);
         el.style.setProperty("--ero-rx", `${Math.max(-12, Math.min(12, -dy * 12))}deg`);
+        // Suppress the idle sway while the tilt vars are being driven.
+        el.dataset.moving = "1";
       });
     };
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -486,6 +491,20 @@ function EroFace({
       window.removeEventListener("pointermove", onMove);
       if (raf) cancelAnimationFrame(raf);
     };
+  }, []);
+  // Resume the idle sway after the pointer has been still for 1.6s.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const obs = new MutationObserver(() => {
+      clearTimeout(idleTimer.current);
+      if (el.dataset.moving) {
+        idleTimer.current = setTimeout(() => { delete el.dataset.moving; }, 1600);
+      }
+    });
+    obs.observe(el, { attributes: true, attributeFilter: ["data-moving"] });
+    return () => { obs.disconnect(); clearTimeout(idleTimer.current); };
   }, []);
 
   const state = [

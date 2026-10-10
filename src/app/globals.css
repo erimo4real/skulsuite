@@ -800,6 +800,20 @@
     transition: transform 0.25s ease-out;
   }
 
+  /* Idle 3D sway: when the pointer is still (JS sets data-moving only
+     while the tilt vars are being written), the character gently turns
+     side to side on its own; moving the pointer hands control over to
+     the real tilt instead. Pausing/frozen phase keeps it glitch-free
+     when sway resumes. Uses the `rotate` property so it composes with
+     the scene's existing rotateX/rotateY/rotateZ transform. */
+  .ero-h-scene {
+    animation: ero-sway 7s ease-in-out infinite;
+  }
+
+  .ero-h[data-moving] .ero-h-scene {
+    animation-play-state: paused;
+  }
+
   .ero-h-float {
     animation: ero-float 3.6s ease-in-out infinite;
   }
