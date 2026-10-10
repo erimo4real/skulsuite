@@ -415,13 +415,17 @@
   left: 22px;
 }
 
-/* Big anime iris with layered highlights */
+/* Big anime iris with layered highlights; the iris glides inside the
+   eye toward the pointer (--ero-ex/--ero-ey lead the head turn). */
 .ero-h-iris {
   position: absolute;
   left: 1.5px;
   top: 2.5px;
   width: 7px;
   height: 7.5px;
+  translate: var(--ero-ex, 0px) var(--ero-ey, 0px);
+  transition: translate 0.18s ease-out;
+  will-change: translate;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #60a5fa 0%, #2563eb 55%, #1e3a8a 100%);
   display: block;

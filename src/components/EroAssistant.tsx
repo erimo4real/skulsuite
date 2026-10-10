@@ -482,6 +482,9 @@ function EroFace({
         const dy = (ey - (r.top + r.height / 2)) / (window.innerHeight / 2);
         el.style.setProperty("--ero-ry", `${Math.max(-18, Math.min(18, dx * 20))}deg`);
         el.style.setProperty("--ero-rx", `${Math.max(-12, Math.min(12, -dy * 12))}deg`);
+        // Eyes lead the turn: glance further than the head rotates (capped).
+        el.style.setProperty("--ero-ex", `${Math.max(-3, Math.min(3, dx * 4))}px`);
+        el.style.setProperty("--ero-ey", `${Math.max(-2.5, Math.min(2.5, -dy * 3))}px`);
         // Suppress the idle sway while the tilt vars are being driven.
         el.dataset.moving = "1";
       });
