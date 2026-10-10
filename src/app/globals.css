@@ -287,6 +287,19 @@
   transform: translateZ(5px);
 }
 
+/* Dynamic rim shading: as the character turns (JS drives --ero-t from
+   --ero-ry), a rotating light overlay darkens the far side and lights
+   the near side, so the volume reads as turning rather than sliding. */
+.ero-h-head-slice:nth-of-type(3)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ero-shade, none);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 /* Ears */
 .ero-h-head::before,
 .ero-h-head::after {
@@ -453,6 +466,20 @@
   background: rgba(255, 255, 255, 0.75);
 }
 
+/* Eyebrows: thin arcs above the eyes (hidden by default; shown straight
+   in the resting face, lifted during the idle eyebrow gesture). */
+.ero-h-eye::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: -4.5px;
+  width: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: #3b2417;
+  display: block;
+}
+
 /* Blushing cheeks (the anime staple) */
 .ero-h-blush {
   position: absolute;
@@ -563,6 +590,21 @@
   background: #fbbf24;
   box-shadow: inset 0 0 0 1px #b45309;
 }
+
+/* Blazer rim shading: a diffuse dark rim on the far side that scales
+   with the head's --ero-shade var; peaks when shading is at max. */
+.ero-h-body-front {
+  overflow: hidden;
+}
+.ero-h-body-front .ero-h-body-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ero-shade, none);
+  pointer-events: none;
+  display: block;
+}
+
 
 /* Neck fills the gap between head and collar */
 .ero-h-neck {
@@ -800,9 +842,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ero-h-scene {
-    transition: transform 0.25s ease-out;
-  }
+  /* Head tilt + eye vars are spring-driven in JS; no CSS transition here
+     so the spring isn't fighting a second easing curve. */
 
   /* Idle 3D sway: when the pointer is still (JS sets data-moving only
      while the tilt vars are being written), the character gently turns
@@ -816,6 +857,39 @@
 
   .ero-h[data-moving] .ero-h-scene {
     animation-play-state: paused;
+  }
+
+  /* Idle micro-expressions (JS picks one at random when the character
+     has been unwatched for 4–9s). Each runs once, then the class is
+     removed so it can trigger again later. */
+  .ero-h.ero-brow .ero-h-eye::before {
+    animation: ero-brow-up 1.2s ease-in-out;
+  }
+
+  .ero-h.ero-blink2 .ero-h-eye {
+    animation: ero-blink2 1.2s ease-in-out;
+  }
+
+  .ero-h.ero-stretch .ero-h-float {
+    animation: ero-stretch 1.2s ease-in-out;
+  }
+
+  @keyframes ero-brow-up {
+    0%, 100% { transform: translateY(0); }
+    35%, 65% { transform: translateY(-2.5px); }
+  }
+
+  @keyframes ero-blink2 {
+    0%, 18%, 46%, 100% { transform: scaleY(1); }
+    26%, 38% { transform: scaleY(0.08); }
+    60%, 70% { transform: scaleY(0.08); }
+  }
+
+  @keyframes ero-stretch {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    40%, 60% {
+      transform: translateY(-2px) scale(0.94, 1.06);
+    }
   }
 
   .ero-h-float {

@@ -464,30 +464,73 @@ function EroFace({
   const rootRef = useRef<HTMLSpanElement | null>(null);
   const idleTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Pointer tracking: Ero's head turns toward the mouse (motion OK only).
+  // Pointer tracking with spring-follow: Ero's head and eyes chase the
+  // mouse through a damped spring anchored at the real pointer position,
+  // so the character settles naturally instead of snapping (motion OK only).
   useEffect(() => {
     const el = rootRef.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
+    // Targets and spring state per channel [x, y] for head vars and eyes.
+    const target = { rx: 0, ry: 0, ex: 0, ey: 0 };
+    const cur = { rx: 0, ry: 0, ex: 0, ey: 0 };
+    const vel = { rx: 0, ry: 0, ex: 0, ey: 0 };
+    const K = 90;   // spring stiffness (1/s^2)
+    const D = 14;   // damping (1/s) — under-critical so it overshoots slightly
     let raf = 0;
-    const onMove = (e: PointerEvent) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
+    let last = 0;
+    const step = (now: number) => {
+      if (!last) last = now;
+      const dt = Math.min((now - last) / 1000, 1 / 30);
+      last = now;
+      for (const k of ["rx", "ry", "ex", "ey"] as const) {
+        const a = -K * (cur[k] - target[k]) - D * vel[k];
+        vel[k] += a * dt;
+        cur[k] += vel[k] * dt;
+      }
+      el.style.setProperty("--ero-ry", `${cur.ry.toFixed(2)}deg`);
+      el.style.setProperty("--ero-rx", `${cur.rx.toFixed(2)}deg`);
+      el.style.setProperty("--ero-ey", `${cur.ey.toFixed(2)}px`);
+      el.style.setProperty("--ero-ex", `${cur.ex.toFixed(2)}px`);
+      // Rim shading follows the turn: the far side darkens as the head
+      // rotates away (positive ry turned right → shade the left flank).
+      const shadeMag = Math.min(Math.abs(cur.ry) / 18, 1) * 0.28;
+      const shadeSide = cur.ry >= 0 ? "90deg" : "270deg";
+      el.style.setProperty(
+        "--ero-shade",
+        `linear-gradient(${shadeSide}, rgba(20,16,50,${shadeMag.toFixed(3)}) 0%, transparent 65%)`,
+      );
+      // Keep stepping while anything is still moving so it settles cleanly.
+      const settled =
+        Math.abs(cur.rx - target.rx) < 0.05 && Math.abs(cur.ry - target.ry) < 0.05 &&
+        Math.abs(cur.ex - target.ex) < 0.02 && Math.abs(cur.ey - target.ey) < 0.02 &&
+        Math.abs(vel.rx) < 0.05 && Math.abs(vel.ry) < 0.05 &&
+        Math.abs(vel.ex) < 0.02 && Math.abs(vel.ey) < 0.02;
+      if (settled) {
         raf = 0;
-        const ex = e.clientX;
-        const ey = e.clientY;
-        const r = el.getBoundingClientRect();
-        const dx = (ex - (r.left + r.width / 2)) / (window.innerWidth / 2);
-        const dy = (ey - (r.top + r.height / 2)) / (window.innerHeight / 2);
-        el.style.setProperty("--ero-ry", `${Math.max(-18, Math.min(18, dx * 20))}deg`);
-        el.style.setProperty("--ero-rx", `${Math.max(-12, Math.min(12, -dy * 12))}deg`);
-        // Eyes lead the turn: glance further than the head rotates (capped).
-        el.style.setProperty("--ero-ex", `${Math.max(-3, Math.min(3, dx * 4))}px`);
-        el.style.setProperty("--ero-ey", `${Math.max(-2.5, Math.min(2.5, -dy * 3))}px`);
-        // Suppress the idle sway while the tilt vars are being driven.
-        el.dataset.moving = "1";
-      });
+        last = 0;
+      } else {
+        raf = requestAnimationFrame(step);
+      }
+    };
+    const onMove = (e: PointerEvent) => {
+      const ex = e.clientX;
+      const ey = e.clientY;
+      const r = el.getBoundingClientRect();
+      const dx = (ex - (r.left + r.width / 2)) / (window.innerWidth / 2);
+      const dy = (ey - (r.top + r.height / 2)) / (window.innerHeight / 2);
+      target.ry = Math.max(-18, Math.min(18, dx * 20));
+      target.rx = Math.max(-12, Math.min(12, -dy * 12));
+      // Eyes lead the turn: glance further than the head rotates (capped).
+      target.ex = Math.max(-3, Math.min(3, dx * 4));
+      target.ey = Math.max(-2.5, Math.min(2.5, -dy * 3));
+      // Suppress the idle sway while the tilt vars are being driven.
+      el.dataset.moving = "1";
+      if (!raf) {
+        last = 0;
+        raf = requestAnimationFrame(step);
+      }
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => {
@@ -508,6 +551,34 @@ function EroFace({
     });
     obs.observe(el, { attributes: true, attributeFilter: ["data-moving"] });
     return () => { obs.disconnect(); clearTimeout(idleTimer.current); };
+  }, []);
+
+  // Idle micro-expressions: while the character is unwatched (sway active,
+  // no data-moving), it occasionally raises an eyebrow, blinks twice, or
+  // does a little stretch. Every 4–9s of stillness, one behavior, 1.2s max.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const GESTURES = ["ero-brow", "ero-blink2", "ero-stretch"] as const;
+    let timer: ReturnType<typeof setTimeout>;
+    let clearT: ReturnType<typeof setTimeout>;
+    const pick = () => {
+      if (el.dataset.moving) return;
+      const pick_ = GESTURES[Math.floor(Math.random() * GESTURES.length)];
+      el.classList.add(pick_);
+      clearTimeout(clearT);
+      clearT = setTimeout(() => el.classList.remove(pick_), 1300);
+    };
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        pick();
+        schedule();
+      }, 4000 + Math.random() * 5000);
+    };
+    schedule();
+    return () => { clearTimeout(timer); clearTimeout(clearT); };
   }, []);
 
   const state = [
@@ -531,10 +602,12 @@ function EroFace({
         <i className="ero-h-shadow" />
         <span className="ero-h-float">
           <span className="ero-h-scene">
-            {/* Blazer body: back shell + clothed front face */}
+            {/* Blazer body: back shell + clothed front face (+ rim shade) */}
             <span className="ero-h-body">
               <i className="ero-h-body-back" />
-              <span className="ero-h-body-front" />
+              <span className="ero-h-body-front">
+                <i className="ero-h-body-shade" />
+              </span>
             </span>
             <i className="ero-h-neck" />
             {/* Arms — left rests, right waves; each has a depth slab */}
